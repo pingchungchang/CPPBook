@@ -139,12 +139,12 @@ sort(v.begin(), v.end());
 ```
 - 會排序 [first, last-1] 的元素
 - 注意到 C++ 多數的東西都是 [left, right-1] 的形式(左閉右開）
-- <a href = "/lectures/sorting"> 關於 sorting </a>
+- <a href = "/CPPBook/lectures/sorting"> 關於 sorting </a>
 #### lower_bound/upper_bound
 - `lower_bound(iter first, iter last, T val)`
 - 會回傳一個 iterator，表示這個陣列中第一至少為 val 的指標(找不到則是 last)
 - **只能在已經排序好的陣列使用**
-- <a href = "/lectures/binsearch">關於二分搜</a>
+- <a href = "/CPPBook/lectures/binsearch">關於二分搜</a>
 
 ## Enumerate (暴力)
 
