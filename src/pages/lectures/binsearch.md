@@ -53,8 +53,8 @@ while(l+1 < r) {
 - f(x) 是單調遞增的，但是很難直接帶公式算 f(x) 的時候
 
 ## 題目
-[leetcode 704](https://leetcode.com/problems/binary-search/description/)
-[ABC231 C](https://atcoder.jp/contests/abc231/tasks/abc231_c)
-[CF 1201 C](https://codeforces.com/contest/1201/problem/C)
-[CSES Array Division](https://cses.fi/problemset/task/1085)
-[CSES Factory Machines](https://cses.fi/problemset/task/1620)
+- [leetcode 704](https://leetcode.com/problems/binary-search/description/)
+- [ABC231 C](https://atcoder.jp/contests/abc231/tasks/abc231_c)
+- [CF 1201 C](https://codeforces.com/contest/1201/problem/C)
+- [CSES Array Division](https://cses.fi/problemset/task/1085)
+- [CSES Factory Machines](https://cses.fi/problemset/task/1620)
