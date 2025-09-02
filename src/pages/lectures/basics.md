@@ -17,7 +17,7 @@ layout: '../../layouts/MyLayout.astro'
 # 題目
 - [x] [篩質數](https://oj.ntucpc.org/problems/550)
 <details><summary> 提示 </summary>
-開一個長度為 $10^7$ 的 `vector<bool> not_prime`，然後跑
+開一個長度為 N 的 `vector<bool> not_prime`，然後跑
 
 ```cpp
 not_prime[1] = 0;
