@@ -9,7 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@expressive-code/plugin-line-numbers": "^0.41.3",
     "astro": "^5.13.4",
+    "astro-expressive-code": "^0.41.3",
     "katex": "^0.16.22",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0"

@@ -34,6 +34,20 @@ int binsearch(int l, int r) {
     }
 }
 ```
+## 一個很乾淨的寫法跟想法
+假設函數的形狀是 false, false, false, ... false, true, true, true, ...
+
+這份 code 會找到 l = 最後一個 false, r = 第一個 true, 而且實際上 f(l), f(r) 不會被戳到
+```cpp
+int binsearch(int l = -1, int r = inf + 1) {
+    while(l+1 < r) {
+        int mid = (l+r) / 2;
+        if (f(mid)) r = mid;
+        else l = mid;
+    }
+    return l;
+}
+```
 
 ## 變形
 ### 三分搜/斜率二分搜/黃金比例搜
@@ -54,6 +68,7 @@ while(l+1 < r) {
 
 ## 題目
 - [leetcode 704](https://leetcode.com/problems/binary-search/description/)
+- [ABC389 E](https://atcoder.jp/contests/abc389/tasks/abc389_e)
 - [ABC231 C](https://atcoder.jp/contests/abc231/tasks/abc231_c)
 - [CF 1201 C](https://codeforces.com/contest/1201/problem/C)
 - [CSES Array Division](https://cses.fi/problemset/task/1085)

@@ -34,7 +34,7 @@ for(int i = 0;i<N;i++) {
 複雜度？
 
 ## Bubble Sort
-```cpp!=
+```cpp
 bool not_sorted(vector<int> &v) {
     for(int i = 1;i<v.size();i++) {
         if (v[i] < v[i-1]) return false;
