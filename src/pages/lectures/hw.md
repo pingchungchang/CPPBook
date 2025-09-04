@@ -48,3 +48,21 @@ for(int i = 2;i<=N;i++) {
 - [cses](https://cses.fi/problemset/list/) 裡面 introductory problems 到 trailing zeros 前的問題
     - [x] [Missing Number](https://cses.fi/problemset/task/1083)
 
+# Week 2
+## Iterator, Reference
+## Sorting
+注意題目不一定跟 lower_bound, sorting 有關
+- [x] <a href="https://cses.fi/problemset/task/1621"> CSES Distince Numbers </a>
+- [x] <a href="https://cses.fi/problemset/task/1084"> CSES Apartments </a>
+- [x] <a href="https://cses.fi/problemset/task/1090"> CSES Ferris Wheel</a>
+- [x] [CSES Sum of Two Values](https://cses.fi/problemset/task/1640)
+- [x] [CSES Missing Coin Sum](https://cses.fi/problemset/task/2183)
+- [CF 299A](https://codeforces.com/problemset/problem/299/A)
+- [CF 1946A](https://codeforces.com/problemset/problem/1946/A)
+- [CF 1975A](https://codeforces.com/problemset/problem/1975/A)
+- [CF 1975B](https://codeforces.com/contest/1975/problem/B)
+- [CSA Rectangle Partition](https://csacademy.com/contest/archive/task/rectangle-partition/)
+    - 注意只要數那 (N+1)*(M+1) 個就好，不是要對所有形成的長方形都問一次
+- [ABC 362B](https://atcoder.jp/contests/abc362/tasks/abc362_b)
+- [ARC 154D](https://atcoder.jp/contests/arc154/tasks/arc154_d)
+    - 這題是非常難想到的排序題，有興趣可以想想看

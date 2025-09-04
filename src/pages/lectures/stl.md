@@ -1,7 +1,7 @@
 ---
-title: 'Week 2'
+title: 'STL'
 pubDate: 2024-08-29
-description: 'Week 2'
+description: 'STL'
 author: 'PCC'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
@@ -9,7 +9,6 @@ image:
 tags: ["Basic", "CPP"]
 layout: '../../layouts/MyLayout.astro'
 ---
-# Week 2
 
 ## More about Time Complexity
 ### More details for asymptotic notation
@@ -194,5 +193,27 @@ l.pop_front();
 - [練習題](https://zerojudge.tw/ShowProblem?problemid=b551)
 
 
+### Set
+可以當數學裡面的集合，支援 insert, delete, find 。
+#### STL
+```cpp
+#include <set>
+using namespace std;
+
+set<int> st;
+st.insert(3);
+st.insert(4);
+st.insert(4); // 會自動去除重複元素
+auto it = st.find(4); // returns st.end() if not found
+it = st.lower_bound(3); // at 3
+it = st.upper_bound(3); // at 4
+```
+- [例題](https://cses.fi/problemset/task/1621)
+- STL 中的 set 實作是使用紅黑樹，但這個東西不怎麼會用到，只要把他當成一個可以保持樹高在 $O(\log N)$ 量級的黑盒子就好
+- <a href = "/CPPBook/lectures/BST"> 關於二元樹 </a>
+
 ## 題目
 - 可以把 cses introductory 寫完了(除了最後一題很難以外)
+- 如果會用 set 跟 map 的話可以把 sorting and searching 幾乎寫完
+
+
