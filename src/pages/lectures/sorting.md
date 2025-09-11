@@ -31,7 +31,7 @@ for(int i = 0;i<N;i++) {
     swap(arr[p], arr[i]);
 }
 ```
-複雜度？
+時間複雜度 $O(N^2)$
 
 ## Bubble Sort
 ```cpp
@@ -47,7 +47,7 @@ while(not_sorted(v)) {
     }
 }
 ```
-複雜度？
+時間複雜度 $O(N^2)$
 
 ## Merge Sort
 - 用到分治(divide and conquer)
@@ -65,7 +65,7 @@ void merge_sort(vector<int> &v, int l, int r) {
     combine(v, l, mid, r);
 }
 ```
-複雜度？
+時間複雜度 $O(N \log N)$
 
 ### Quick Sort
 選一個數字當 pivot，把比他小的放一邊；比他大的放另一邊，之後遞迴
@@ -87,7 +87,7 @@ void quick_sort(vector<int> &v) {
     return;
 }
 ```
-複雜度？
+時間複雜度期望 $O(N \log N)$
 
 ## 題目
 - [zj a104](https://zerojudge.tw/ShowProblem?problemid=a104)

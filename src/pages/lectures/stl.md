@@ -210,7 +210,7 @@ it = st.upper_bound(3); // at 4
 ```
 - [例題](https://cses.fi/problemset/task/1621)
 - STL 中的 set 實作是使用紅黑樹，但這個東西不怎麼會用到，只要把他當成一個可以保持樹高在 $O(\log N)$ 量級的黑盒子就好
-- <a href = "/CPPBook/lectures/BST"> 關於二元樹 </a>
+- <a href = "/CPPBook/lectures/bst"> 關於二元樹 </a>
 
 ## 題目
 - 可以把 cses introductory 寫完了(除了最後一題很難以外)
