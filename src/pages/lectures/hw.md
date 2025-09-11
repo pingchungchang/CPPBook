@@ -66,3 +66,34 @@ for(int i = 2;i<=N;i++) {
 - [ABC 362B](https://atcoder.jp/contests/abc362/tasks/abc362_b)
 - [ARC 154D](https://atcoder.jp/contests/arc154/tasks/arc154_d)
     - 這題是非常難想到的排序題，有興趣可以想想看
+
+# Week 3
+- [x] [CSES Static Range Sum Queries](https://cses.fi/problemset/task/1646) 前綴和練習題
+- [x] [CSES Sum of Two Values](https://cses.fi/problemset/task/1640) (現在有 STL 應該可以做了)
+- [x] [CSES Concert Tickets](https://cses.fi/problemset/task/1091) (set 基本應用)
+- [x] [CSES Towers](https://cses.fi/problemset/task/1073) (set 基本應用)
+- [x] [CSES Array Division](https://cses.fi/problemset/task/1085)
+    <details><summary> 提示 </summary>
+    假設我要求每一段的總和要 <= x ，我最少要切成幾段？
+
+    要求每一段總和越小，要切的段數會越多
+
+    所以就二分搜答案，如果需要的最少段數 <= k 則 r = mid ，否則 l = mid
+    </details>
+
+- [x] [CSES Subarray Sums II](https://cses.fi/problemset/task/1661)
+- [x] [CSES Maximum Subarray Sum II](https://cses.fi/problemset/task/1644)
+- [CSES Distinct Values Subarrays II](https://cses.fi/problemset/task/2428) (set 應用)
+- [CSES Nearest Smaller Values](https://cses.fi/problemset/task/1645) (作法不少，可以用 stack 做 $O(N)$ 也可以大到小排好之後用 set 做 $O(N \log N)$)
+- [CSES Forest Queries](https://cses.fi/problemset/task/1652) 二維的前綴和練習題
+
+以下是一些比較隨機抓出來的題目，應該比較簡單
+- [CF 2072A](https://codeforces.com/contest/2072/problem/A)
+- [ABC 407A](https://atcoder.jp/contests/abc407/tasks/abc407_a)
+- [ABC 407B](https://atcoder.jp/contests/abc407/tasks/abc407_b) 輸出浮點數：
+```cpp
+float x; // or double x
+cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
+```
+- [ABC 295C](https://atcoder.jp/contests/abc295/tasks/abc295_c)
+- [ABC 235C](https://atcoder.jp/contests/abc235/tasks/abc235_c) 可以粗暴的開 `map<int, vector<int>>` 做
