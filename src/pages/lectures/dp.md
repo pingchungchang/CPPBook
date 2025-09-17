@@ -74,9 +74,21 @@ for(int i = 1;i<=N;i++) {
 這個技巧叫做滾動 DP
 
 ## LCS
+給兩個字串，找最長的共同子序列
+
+一樣直接列出遞迴式
 
 ## LIS
+給一個陣列，找最長的嚴格遞增子序列
+
+優化：對每個 $i$ 找出 $argmin_x(f(x) = i)$ ，之後可以二分搜
 
 ## DP and DAG
+DP 可以做什麼？觀察到基本上把遞迴式寫出來，如果 $f(S)$ 需要 $T$ 則建一條 $S -> T$ 的有向邊，那 top-down DP 基本上就是從出度為 $0$ 的點一路算回去。
 
-基本上會希望 cses 的 DP section **一定**要寫完
+
+基本上會希望 [cses 的 DP section](https://cses.fi/problemset/task/1633) 要寫完
+
+[atcoder DP contest](https://atcoder.jp/contests/dp/tasks)
+
+基本上 DP 題大概就那幾種變形，剩下就是透過觀察把題目轉成可以 DP 的樣子而已
