@@ -71,6 +71,8 @@ for(int eid = head[u]; eid; eid = nxt[eid]) {
 
 ## 遍歷
 - BFS (Breadth-First Search): 先選擇一個起點，把它放進一個 queue ，之後每跑一個節點就把他的鄰居中還沒跑過的點放進 queue
+
+[動畫](https://www.cs.usfca.edu/~galles/visualization/BFS.html)
 ```cpp
 vector<vector<int>> G(N);
 vector<bool> vis(N);
@@ -91,6 +93,8 @@ void bfs() {
 ```
 用途：對於一張沒有邊權的圖，可以證明如果 $dis(0, u) < dis(0, v)$ 則 $u$ 會比較早進入 queue 中
 - DFS (Depth-First Search): 先選擇一個起點，然後遞迴地先處理他的鄰居中還沒走過的人
+
+[動畫](https://www.cs.usfca.edu/~galles/visualization/DFS.html)
 ```cpp
 vector<vector<int>> G(N);
 vector<bool> vis(N);
