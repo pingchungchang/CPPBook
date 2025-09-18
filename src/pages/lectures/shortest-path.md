@@ -126,3 +126,16 @@ void Floyd_Warshall() {
 }
 ```
 小知識: 如果 $(i, j, k)$ 順序打錯的話可以證明跑三次一定會對 ([reference](https://arxiv.org/abs/1904.01210))
+
+## 例題
+- [CSES Labyrinth](https://cses.fi/problemset/task/1193): 想一下要怎麼還原解（小心時限）
+- [CSES Monsters](https://cses.fi/problemset/task/1194)
+- [CSES High Score](https://cses.fi/problemset/task/1673)
+- [CSES Shortest Routes I](https://cses.fi/problemset/task/1671)
+- [CSES Shortest Routes II](https://cses.fi/problemset/task/1672)
+
+## 建圖
+有時候，直接在原圖上面跑最短路不一定是我們要的答案
+- [CSES Flight Discount](https://cses.fi/problemset/task/1195)
+- [CSES Flight Routes](https://cses.fi/problemset/task/1196)
+- [CSES Nearest Shops](https://cses.fi/problemset/task/3303)
