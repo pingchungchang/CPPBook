@@ -97,3 +97,23 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 ```
 - [ABC 295C](https://atcoder.jp/contests/abc295/tasks/abc295_c)
 - [ABC 235C](https://atcoder.jp/contests/abc235/tasks/abc235_c) 可以粗暴的開 `map<int, vector<int>>` 做
+
+# Week 4
+- [最大平均區間](https://oj.ntucpc.org/problems/718)
+    <details><summary> 提示 </summary>
+        可以證明長度一定不大於 5
+    </details>
+- [CSES Stick Divisions](https://cses.fi/problemset/task/1161)
+    <details><summary> 提示 </summary>
+        倒著做回來，變成要把 N 段合併成一根大木棒，然後每次合併的代價是合併後的長度和。
+
+    每次挑最短的兩根合併 -> 可以用 priority_queue 實作
+    </details>
+- [Atcoder Frog 1](https://atcoder.jp/contests/dp/tasks/dp_a)
+    <details><summary> 提示 </summary>
+        定義 f(i) 跳到第 i 格的最低 cost，那 f(i) = min(f(i-1)+|h[i]-h[i-1]|, f(i-2)+|h[i]-h[i-2]|$
+    </details>
+- [Atcoder Frog 2](https://atcoder.jp/contests/dp/tasks/dp_b): 應該跟上一題一樣，但是可能要 bottom-up 才會過
+- [LCS](https://atcoder.jp/contests/dp/tasks/dp_f)
+- [CSES Building Roads](https://cses.fi/problemset/task/1666)
+如果還要寫更多題目的話可以去刷 CSES 的 DP
