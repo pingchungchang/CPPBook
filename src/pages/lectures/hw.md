@@ -117,3 +117,14 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [LCS](https://atcoder.jp/contests/dp/tasks/dp_f)
 - [CSES Building Roads](https://cses.fi/problemset/task/1666)
 如果還要寫更多題目的話可以去刷 CSES 的 DP
+
+# Week 5
+- [純粹是一題簡單題](https://codeforces.com/contest/20/problem/A)
+- [最短路](https://atcoder.jp/contests/abc340/tasks/abc340_d)
+- [CSES Shortest Routes II](https://cses.fi/problemset/task/1672)
+- [CSES Flight Discount](https://cses.fi/problemset/task/1195)
+- [需要非常好好處理的 BFS](https://atcoder.jp/contests/abc170/tasks/abc170_f)
+
+下面兩題很有教育意義但很難（希望我下次上課記得講）
+- [值得思考的題目](https://tioj.ck.tp.edu.tw/problems/2204)
+- [另一個好題](https://tioj.ck.tp.edu.tw/problems/2151)
