@@ -183,3 +183,11 @@ struct DSU {
     }
 };
 ```
+
+## 例題
+- 可以在維護 DSU 的同時記一些額外的標記
+    - [ABC 183 F](https://atcoder.jp/contests/abc183/tasks/abc183_f)
+    - [CF EDU](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/problem/B)
+- 當你發現 DSU 只能做加邊，不能刪除的時候，可以試試看倒著做
+    - [CF EDU](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/problem/D)
+- [二分圖判定](https://codeforces.com/edu/course/2/lesson/7/2/practice/contest/289391/problem/I)
