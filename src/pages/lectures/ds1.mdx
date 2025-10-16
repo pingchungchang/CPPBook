@@ -1,0 +1,142 @@
+---
+title: 'DS1'
+pubDate: 2024-10-16
+description: 'DS1'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# Data Structures (資料結構）
+## 緒論
+- 就是資料儲存的方式
+- 基本上幾乎所有的程式都是資料結構＋演算法組起來的
+- 資料結構通常是要支援某些"行為"而設計出來的(通常稱為"操作" 或 "詢問"/ operation, query)
+
+## Prefix Sum
+給一個陣列 $\{a_i\}_{i=0}^{n-1}$，之後會有一種操作：
+- query(l, r): 求 $\sum_{i=l}^r a_i$
+
+### Naive
+```cpp
+using ll = long long;
+struct DS {
+	vector<ll> arr;
+	DS(vector<ll> a) {
+		arr = a;
+	}
+	ll query(ll l, ll r) {
+		ll sum = 0;
+		for (int i = l; i <= r; i++) {
+			sum += arr[i];
+		}
+		return sum;
+	}
+}
+```
+複雜度 $O(n)$ per query
+### Prefix Sum
+```cpp
+using ll = long long;
+struct DS {
+	vector<ll> arr;
+	DS(vector<ll> a) {
+		arr = a;
+		for (int i = 1; i < arr.size(); i++) arr[i] += arr[i-1];
+	}
+	ll query(ll l, ll r) {
+		if (l == 0) return arr[r];
+		else return arr[r] - arr[l-1];
+	}
+}
+```
+$O(1)$ per query
+
+真正寫的時候不一定要用 `struct` 包起來，像是前綴和通常是直接開一個陣列紀錄就好
+
+## [Incremental Median](https://cses.fi/problemset/task/1076)
+給 $N$ 個操作跟一個空的初始陣列 $\{a\}_{i=0}^{n-1}$，可能為以下：
+- insert(x): 在 $a$ 加入一個 $x$
+- erase(x): 在 $a$ 中移除 $x$
+- find_median(): 輸出 $a$ 的中位數，如果長度為偶數就輸出比較小的，保證 find_median 的時候 a 不是空的
+
+要求複雜度 $O(\log N)$ per operation
+
+### naive
+```cpp
+#include <vector>
+#include <algorithm>
+void insert(x) {
+	a.push_back(x);
+}
+void erase(x) {
+	auto p = find(a.begin(), a.end(), x);
+	a.erase(p, p+1);
+}
+int find_median() {
+	sort(a.begin(), a.end());
+	return a[(a.size()-1) / 2];
+}
+```
+$O(n)$
+
+### two sets
+```cpp
+#include <multiset>
+multiset<int> l, r;
+void rebalance() {
+	while(l.size() > r.size()) {
+		r.insert(*l.rbegin());
+		l.erase(l.find(*l.rbegin());
+	}
+	while(r.size() > l.size()) {
+		l.insert(*r.begin());
+		r.erase(r.find(*r.begin()));
+	}
+	return;
+}
+void init () {
+	l.insert(INT_MIN);
+	r.insert(INT_MAX);
+}
+void insert(int k) {
+	if (*l.rbegin() > k) l.insert(k);
+	else r.insert(k);
+	rebalance();
+}
+void erase(int k) {
+	if (l.find(k) != l.end()) l.erase(l.find(k));
+	else r.erase(r.find(k));
+	rebalance();
+}
+int get_median() {
+	return *l.rbegin();
+}
+```
+
+### BBST (PBDS)
+```cpp
+#include <bits/extc++.h>
+using namespace __gnu_pbds;
+template<typename T>
+using ordered_set = tree<T, null_type, less<T>, 
+	rb_tree_tag, tree_order_statistics_node_update>;
+ordered_set<int> s;
+void insert(int x) {
+	s.insert(x);
+}
+void erase(int x) {
+	s.erase(x);
+}
+int get_median() {
+	return *s.find_by_order((s.size()-1) / 2);
+}
+```
+注意這樣的話如果 $a$ 裡面有相同元素會錯，因為 set 會去重
+$O(\log n)$
+

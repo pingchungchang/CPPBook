@@ -9,7 +9,7 @@ image:
 tags: ["Basic", "CPP"]
 layout: '../../layouts/MyLayout.astro'
 ---
-# Tree (樹)
+# MST & Tree(樹)
 以防萬一忘記再貼一次定義們
 - 樹(tree)：
     - 連通
@@ -100,7 +100,11 @@ for (int i = 0; i < N; i++) {
 - 需要連通的邊權總和最小
 - 任何兩點 $u, v$ 從 $u$ 走到 $v$ 經過的最大邊權最小值會跟 MST 上一樣
 
-### DFS
+### 例題
+- [CSES Road Reparation](https://cses.fi/problemset/task/1675)
+- [CF 472D](https://codeforces.com/contest/472/problem/D)
+
+## DFS
 DFS 超級適合拿來遍歷一棵樹，作法如下：
 
 ```cpp
@@ -113,15 +117,40 @@ void dfs(int now, int par) {
     }
     // 該節點的子樹都已經走完了
 }
-dfs(0);
+dfs(0, 0);
 ```
 
-比如說，要算各個節點的深度：
+比如說，要算各個節點的深度(各節點到根的距離）：
 ```cpp
-// TBD
+vector<int> tree[mxn];
+int dep[mxn];
+void dfs(int now, int par) {
+    for (auto nxt: tree[now]) {
+        if (nxt == par) continue;
+        dep[nxt] = dep[now] + 1;
+        dfs(nxt, now);
+    }
+    return;
+}
 ```
 
 比如說，要算各個節點的子樹大小：
 ```cpp
-// TBD
+vector<int> tree[mxn];
+int sz[mxn];
+void dfs(int now, int par) {
+    for (auto nxt: tree[now]) {
+        if (nxt == par) continue;
+        dfs(nxt, now);
+        sz[now] += sz[nxt];
+    }
+    return;
+}
 ```
+
+### 例題
+- [CSES Subordinates](https://cses.fi/problemset/task/1674)
+
+更多樹相關的知識可能講完資料結構再回來會比較好
+
+<!-- TODO: tree dp, rerooting dp, centroid, diameter, lca, hld, cd, -->

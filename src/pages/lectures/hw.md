@@ -68,6 +68,7 @@ for(int i = 2;i<=N;i++) {
     - 這題是非常難想到的排序題，有興趣可以想想看
 
 # Week 3
+## STL
 - [x] [CSES Static Range Sum Queries](https://cses.fi/problemset/task/1646) 前綴和練習題
 - [x] [CSES Sum of Two Values](https://cses.fi/problemset/task/1640) (現在有 STL 應該可以做了)
 - [x] [CSES Concert Tickets](https://cses.fi/problemset/task/1091) (set 基本應用)
@@ -99,16 +100,17 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [ABC 235C](https://atcoder.jp/contests/abc235/tasks/abc235_c) 可以粗暴的開 `map<int, vector<int>>` 做
 
 # Week 4
+## Greedy
 - [最大平均區間](https://oj.ntucpc.org/problems/718)
     <details><summary> 提示 </summary>
         可以證明長度一定不大於 5
     </details>
 - [CSES Stick Divisions](https://cses.fi/problemset/task/1161)
     <details><summary> 提示 </summary>
-        倒著做回來，變成要把 N 段合併成一根大木棒，然後每次合併的代價是合併後的長度和。
-
+        倒著做回來，變成要把 N 段合併成一根大木棒，然後每次合併的代價是合併後的長度和。<br>
     每次挑最短的兩根合併 -> 可以用 priority_queue 實作
     </details>
+## DP
 - [Atcoder Frog 1](https://atcoder.jp/contests/dp/tasks/dp_a)
     <details><summary> 提示 </summary>
         定義 f(i) 跳到第 i 格的最低 cost，那 f(i) = min(f(i-1)+|h[i]-h[i-1]|, f(i-2)+|h[i]-h[i-2]|$
@@ -119,6 +121,7 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 如果還要寫更多題目的話可以去刷 CSES 的 DP
 
 # Week 5
+## Shortest Path
 - [純粹是一題簡單題](https://codeforces.com/contest/20/problem/A)
 - [最短路](https://atcoder.jp/contests/abc340/tasks/abc340_d)
 - [CSES Shortest Routes II](https://cses.fi/problemset/task/1672)
@@ -128,3 +131,24 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 下面兩題很有教育意義但很難（希望我下次上課記得講）
 - [值得思考的題目](https://tioj.ck.tp.edu.tw/problems/2204)
 - [另一個好題](https://tioj.ck.tp.edu.tw/problems/2151)
+
+# Week 6
+### Greedy
+- [特調米漿優惠券](https://oj.ntucpc.org/problems/33)
+- [侯女神與三的倍數](https://oj.ntucpc.org/problems/21)
+- [切蛋糕](https://oj.ntucpc.org/problems/11)
+- [CF 1982C](https://codeforces.com/problemset/problem/1982/C)
+- [ABC 287C](https://atcoder.jp/contests/abc287/tasks/abc287_d)
+### DP
+- [別離太遠](https://oj.ntucpc.org/problems/94)
+- [別離太近](https://oj.ntucpc.org/problems/95)
+### Graph & Shortest Path
+- [ABC 287C](https://atcoder.jp/contests/abc287/tasks/abc287_c)
+- [ABC 404C](https://atcoder.jp/contests/abc404/tasks/abc404_c)
+- [ABC 305E](https://atcoder.jp/contests/abc305/tasks/abc305_e)
+- [ABC 317E](https://atcoder.jp/contests/abc317/tasks/abc317_e)
+- [ABC 237E](https://atcoder.jp/contests/abc237/tasks/abc237_e) ，這題的建模有點有趣，可以參考看看物理位能的想法
+### Misc (簡單題或者不用演算法的題目）
+- [靈魂繪手](https://oj.ntucpc.org/problems/138)
+- [法語題](https://oj.ntucpc.org/problems/117)
+- [ABC 287B](https://atcoder.jp/contests/abc287/tasks/abc287_b)

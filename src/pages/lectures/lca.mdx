@@ -1,0 +1,33 @@
+---
+title: 'LCA'
+pubDate: 2024-09-19
+description: 'LCA'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# LCA (最近共同祖先)
+	<Image src={treeImage} alt="tree" width={400} />
+## 定義
+- 首先要是一個有根樹
+- 兩個點 a, b 的 LCA p 就是深度最深且同時是 a 跟 b 祖先的點
+- 比如說， lca(2, 6) = 0, lca(7, 5) = 5, lca(7, 8) = 6
+
+## how to 找 LCA
+
+### 暴力
+```cpp
+int lca(int a, int b) {
+	while (a != b) {
+		if (dep[a] < dep[b]) b = par[b];
+		else a = par[a];
+	}
+	return a;
+}
+```

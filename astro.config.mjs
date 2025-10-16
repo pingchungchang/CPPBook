@@ -6,6 +6,8 @@ import rehypeKatex from 'rehype-katex';
 import expressiveCode from 'astro-expressive-code';
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
+import mdx from '@astrojs/mdx';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://pingchungchang.github.io',
@@ -17,9 +19,9 @@ export default defineConfig({
   },
 
   integrations: [expressiveCode({
-	  plugins: [pluginLineNumbers()], // add pluginLineNumbers() plugin
-	  defaultProps: {
-		  showLineNumbers: true, // set true to show line number by default
-	  }
-  })],
+      plugins: [pluginLineNumbers()], // add pluginLineNumbers() plugin
+      defaultProps: {
+          showLineNumbers: true, // set true to show line number by default
+      }
+  }), mdx()],
 });
