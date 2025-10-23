@@ -152,3 +152,22 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [靈魂繪手](https://oj.ntucpc.org/problems/138)
 - [法語題](https://oj.ntucpc.org/problems/117)
 - [ABC 287B](https://atcoder.jp/contests/abc287/tasks/abc287_b)
+
+# Week 7
+- [並查集模板題](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/problem/A)
+- [並查集維護極值](https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/problem/B)
+    <details><summary> 提示 </summary> 
+        union(a,b) 時，我們可以用一個變數 sz 紀錄合併後的大小，當然也可以用一個變數 mn 紀錄最小值，合併時把新的根紀錄 mn[a] = min(mn[a], mn[b]) 就好了
+    </details>
+- [CSES Road Preparation](https://cses.fi/problemset/task/1675)
+- [CF 385A](https://codeforces.com/contest/744/problem/A) 有不用並查集的作法
+- [CF 25D](https://codeforces.com/contest/25/problem/D) 這題比較難，可以跳過
+### DP
+- [Vacation](https://atcoder.jp/contests/dp/tasks/dp_c)
+- [Knapsack](https://atcoder.jp/contests/dp/tasks/dp_d)
+### 底下是一些的簡單題
+- [ABC 419A](https://atcoder.jp/contests/abc419/tasks/abc419_a)
+- [ABC 419B](https://atcoder.jp/contests/abc419/tasks/abc419_b)
+- [ABC 419C](https://atcoder.jp/contests/abc419/tasks/abc419_c)
+### 下次可以帶到的雜事
+- [ABC 419D](https://atcoder.jp/contests/abc419/tasks/abc419_d)
