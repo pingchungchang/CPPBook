@@ -151,6 +151,13 @@ void dfs(int now, int par) {
 ### 例題
 - [CSES Subordinates](https://cses.fi/problemset/task/1674)
 
+### 更多樹 DP
+- [樹上匹配](https://cses.fi/problemset/task/1130)
+- [樹上獨立集](https://atcoder.jp/contests/dp/tasks/dp_p)
+- [數直徑](https://cses.fi/problemset/task/1131)
+- [樹重心](https://cses.fi/problemset/task/2079)
+- [換根 DP](https://cses.fi/problemset/task/1133)
+
 更多樹相關的知識可能講完資料結構再回來會比較好
 
 <!-- TODO: tree dp, rerooting dp, centroid, diameter, lca, hld, cd, -->

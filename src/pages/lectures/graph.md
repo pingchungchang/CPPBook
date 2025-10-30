@@ -127,8 +127,18 @@ dfs(0);
     }
     return cnt;
     ```
-    複雜度？
+    複雜度 $O(N+M)$
 
 例題：
 - [CSES Counting Rooms](https://cses.fi/problemset/task/1192)
 - [CSES Building Roads](https://cses.fi/problemset/task/1666)
+
+## DAG
+### 拓樸排序
+- 找一個點的順序使得如果 a -> b ，那 a 在 b 前面
+- 可以用類似 bfs 也可以用類似 dfs
+- [CSES Course Schedule](https://cses.fi/problemset/task/1679)
+- [CF 510 C](https://codeforces.com/problemset/problem/510/C)
+### DAG DP
+- [CSES Longest Flight Route](https://cses.fi/problemset/task/1680)
+- [Atcoder DP contest G](https://atcoder.jp/contests/dp/tasks/dp_g)

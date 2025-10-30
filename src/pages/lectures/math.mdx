@@ -27,6 +27,9 @@ int GCD(int a, int b) {
 ```
 - extend gcd：給 a, b, c, p, 求 $ax + by = c \ mod \ p$ 的 x, y
 
+### 例題
+- [TIOJ 1700](https://tioj.ck.tp.edu.tw/problems/1700)
+
 ## Modulo
 
 ### 一些名詞們
@@ -108,6 +111,56 @@ $(^n_k) = \frac{n!}{k!(n-k)!} = fac[n] \times ifac[k] \times ifac[n-k]$
 有 $n$ 個球跟 $k$ 個箱子，有幾種放球跟箱子的相異放法
 - 球跟箱子全部都不一樣: $k ^ n$
 - 球跟箱子都相同：$H^n_k = (^{n+k-1}_n)$
+- 球不同但是箱子相同：
+- 箱子不同但球相同：
 ### 數數例題
 - [CF 1281 C](https://codeforces.com/contest/1281/problem/C)
 - [CF 1279 D](https://codeforces.com/contest/1279/problem/D)
+
+## 質數篩
+給一個數字 $C$ ，問他是不是質數
+### $C \le 10 ^ {12}$
+### $C \le 10 ^ 6$ ，但是問很多次
+調和級數
+```cpp
+vector<bool> isp(C+1, true);
+isp[1] = 0;
+for (int i = 2; i <= C; i++) {
+	for (int j = i+i; j <= C; j+= i) isp[j] = false;
+}
+```
+### $C \le 10 ^ 7$ ，也是問很多次
+埃式篩 or 線性篩
+```cpp
+vector<bool> isp(C+1, true);
+isp[1] = 0;
+for (int i = 2; i <= C; i++) {
+	if (isp[i]) {
+		for (int j = i+i; j <= C; j+=i) isp[j] = false;
+	}
+}
+```
+### $C \le 10 ^ 9$ 但是問一段 $(l, r)$ 區間的數字且 $r-l \le 10 ^ 6$
+
+### 例題
+- [TIOJ 1535](https://tioj.ck.tp.edu.tw/problems/1535)
+- [TIOJ 1615](https://tioj.ck.tp.edu.tw/problems/1615)
+- [TIOJ 1036](https://tioj.ck.tp.edu.tw/problems/1036)
+- [TIOJ 2313](https://tioj.ck.tp.edu.tw/problems/2313) (加上圖論）
+
+
+## 質因數分解
+一個數字 $C$ 的質因數最多可以有幾個？
+考慮問 $Q$ 個數字 $C$
+- 暴力： $O(\sqrt C)$
+- 先蓋完質數篩之後做事 $O(C + Q \log C)$
+- 一個數字的因數大概是 $O(n^\frac{1}{3})$ 
+### 例題
+- [NTUCPC 687](https://oj.ntucpc.org/problems/687)
+
+## 線性代數 & 矩陣
+### 矩陣快速冪
+- [TIOJ 2053](https://tioj.ck.tp.edu.tw/problems/2053)
+
+### 高斯消
+- [TIOJ 2170](https://tioj.ck.tp.edu.tw/problems/2170)
