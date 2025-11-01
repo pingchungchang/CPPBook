@@ -171,3 +171,15 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [ABC 419C](https://atcoder.jp/contests/abc419/tasks/abc419_c)
 ### 下次可以帶到的雜事
 - [ABC 419D](https://atcoder.jp/contests/abc419/tasks/abc419_d)
+
+# Week 8
+## 基本
+- [樹上匹配](https://cses.fi/problemset/task/1130)
+- [拓樸排序](https://cses.fi/problemset/task/1679)
+- [GCD](https://tioj.ck.tp.edu.tw/problems/1700)
+- [質數篩](https://oj.ntucpc.org/problems/550)
+## 練習題
+- [高中數學](https://atcoder.jp/contests/abc178/tasks/abc178_c)
+- [多一點東西的質數篩](https://tioj.ck.tp.edu.tw/problems/1036)
+- [想一下的拓撲排序](https://codeforces.com/contest/510/problem/C)
+- [DAG DP](https://cses.fi/problemset/task/1680)
