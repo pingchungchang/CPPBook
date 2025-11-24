@@ -10,7 +10,7 @@ tags: ["Basic", "CPP"]
 layout: '../../layouts/MyLayout.astro'
 ---
 import { Image } from 'astro:assets';
-import treeImage from '../../images/tree.png';
+import prefixsumImage from '../../images/prefixsum-graph.png';
 
 # Data Structures (資料結構）
 ## 緒論
@@ -138,5 +138,124 @@ int get_median() {
 }
 ```
 注意這樣的話如果 $a$ 裡面有相同元素會錯，因為 set 會去重
+
 $O(\log n)$
 
+## [Segment Tree](https://cses.fi/problemset/task/1647)
+給一個陣列 $\{a_i\}_{i=0}^{n-1}$，之後會有一種操作：
+- query(l, r): 求 $\max_{i=l}^r a_i$
+
+為啥不能用前綴和紀錄？
+
+我們先做簡單版問題：
+###  給一個陣列 $\{a_i\}_{i=0}^{n-1}$，用分治求整個陣列的最大值
+```cpp
+int divide_and_conquer(int l, int r) {
+	if (l == r) return a[l];
+	int m = (l+r) / 2;
+	return min (divide_and_conquer(l, m), divide_and_conquer(m+1, r))
+}
+```
+
+我們把分治過程的整個遞迴樹存下來，而那就是線段樹了。
+
+畫圖時間（基本上網路上有不少[精美動畫](https://slides.com/pringdesu/deck#/7/37))
+
+大致上的流程(只是方便理解而已，實務上通常用之後講到的寫法）：
+- build
+```cpp
+struct Node {
+	Node* pl, pr;
+	int val;
+	Node() {
+		pl = pr = 0;
+		val = INT_MAX;
+	}
+};
+
+void build(Node* now, int l, int r) {
+	if (l == r) {
+		now -> val = arr[l];
+		return;
+	}
+	int mid = (l+r) / 2;
+	now -> pl = new Node();
+	now -> pr = new Node();
+	build(now -> pl, l, mid);
+	build(now -> pr, mid+1, r);
+	now -> val = min(now -> pl -> val, now -> pr -> val);
+	return;
+}
+
+int main () {
+	// input
+	Node* root = new Node();
+	build(root, 0, n-1);
+}
+```
+- query
+```cpp
+int query(Node* now, int l, int r, int ql, int qr) {
+	if (l >= ql && qr >= r) return now -> val;
+	int mid = (l+r) / 2;
+	if (mid >= qr) return query(now -> pl, l, mid, ql, qr);
+	else if (mid < ql) return query(now -> pr, mid+1, r, ql, qr);
+	else return min (query(now -> pl, l, mid, ql, qr), query(now -> pr, mid+1, r, ql, qr));
+}
+```
+
+## [我們現在再多加一個修改操作](https://cses.fi/problemset/task/1649)
+- modify(p, v): 修改 $a_p \leftarrow v$
+
+線段樹一樣可以支援修改，注意到單點修改的狀況，如果改了一個點 $p$ ，那只有跟 $p$ 有合併關係的節點 val 需要重算
+
+```cpp
+void modify (Node* now, int l, int r, int p, int v) {
+	if (l == r) {
+		now -> val = v;
+		return;
+	}
+	int mid = (l+r) / 2;
+	if (mid >= p) modify (now -> pl, l, mid, p, v);
+	else modify(now -> pr, mid+1, r, p, v);
+	now -> val = min (now -> pl -> val, now -> pr -> val);
+}
+```
+
+有注意到我用了一堆指標嗎？還有 build 的時候要初始化一堆 new	有點麻煩，所以我們可以借用類似 heap 的結構來紀錄！
+
+```cpp
+const int mxn = 2e5 + 10;
+int seg[mxn * 4];
+void build(int now, int l, int r) {
+	if (l == r) {
+		seg[now] = arr[l];
+		return;
+	}
+	int mid = (l+r) / 2;
+	build (now*2+1, l, mid);
+	build (now*2+2, mid+1, r);
+	seg[now] = min(seg[now*2+1], seg[now*2+2]);
+}
+int query(int now, int l, int r, int ql, int qr) {
+	if (l >= ql && qr >= r) {
+		return seg[now];
+	}
+	int mid = (l+r) / 2;
+	if (mid >= qr) return query (now*2+1, l, mid, ql, qr);
+	else if (mid < ql) return query(now*2+2, mid+1, r, ql, qr);
+	else return min (query(now*2+1, l, mid, ql, qr), query(now*2+2, mid+1, r, ql, qr));
+}
+void modify(int now, int l, int r, int p, int v) {
+	if (l == r) {
+		seg[now] = v;
+		return;
+	}
+	int mid = (l+r) / 2;
+	if (mid >= p) modify (now*2+1, l, mid, p, v);
+	else modify(now*2+2, mid+1, r, p, v);
+	seg[now] = min(seg[now*2+1], seg[now*2+2]);
+}
+```
+
+這東西有一大堆東西可以說，其實可以直接拉出一個章節給他了
