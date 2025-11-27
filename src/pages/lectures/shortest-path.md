@@ -101,6 +101,42 @@ vector<int> Dijkstra(vector<vector<Edge>> &G, int N, int s) {
     return dis;
 }
 ```
+
+### 另一份 code
+```cpp
+void dijkstra(int s) {
+    priority_queue<pll, vector<pll>, greater<pll>> S;
+    // initialize dis[i] = 0 if i == 0 else inf
+    fill(dis, dis + n + 1, LLONG_MAX / 2);
+    dis[s] = 0;
+    // S = {0, 1, 2, ... N-1}
+    for (int i = 1; i <= n; i++) {
+        S.push(pll(dis[i], i));
+    }
+
+    // while |S| > 0:
+    while(S.size() > 0) {
+        // find i in S such that dis[i] is min
+        auto [d, u] = S.top(); S.pop();
+        if (vis[u]) continue;
+
+        // remove i from S
+        vis[u] = true;
+
+        // for (i, v, w) in edges:
+        for (auto [v, w]: g[u]) {
+            // if v in S and dis[v] > dis[i] + w:
+            if (!vis[v] && dis[v] > dis[u] + w) {
+                // dis[v] = dis[i] + w
+                dis[v] = dis[u] + w;
+                // update S
+                S.push(pll(dis[v], v));
+            }
+        }
+    }
+    return;
+}
+```
 複雜度？
 - 例題：[CSES Shortest Routes I](https://cses.fi/problemset/task/1671)
 
