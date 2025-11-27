@@ -183,3 +183,11 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [多一點東西的質數篩](https://tioj.ck.tp.edu.tw/problems/1036)
 - [想一下的拓撲排序](https://codeforces.com/contest/510/problem/C)
 - [DAG DP](https://cses.fi/problemset/task/1680)
+
+# Week 9
+## 練習
+- [ABC 410 A-D](https://atcoder.jp/contests/abc410/tasks)
+    - 到 E 應該都是教過的內容
+- [ABC 429 A-D](https://atcoder.jp/contests/abc429/tasks)
+    - 到 E 應該都是教過的內容
+- [ABC 430 A-D](https://atcoder.jp/contests/abc430/tasks)
