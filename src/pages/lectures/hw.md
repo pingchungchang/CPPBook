@@ -191,3 +191,13 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [ABC 429 A-D](https://atcoder.jp/contests/abc429/tasks)
     - 到 E 應該都是教過的內容
 - [ABC 430 A-D](https://atcoder.jp/contests/abc430/tasks)
+# Week 10
+## 線段樹
+- [高斯消](https://tioj.ck.tp.edu.tw/problems/2170)
+- [CF EDU](https://codeforces.com/edu/course/2/lesson/4/1/practice)
+- [CF EDU-2](https://codeforces.com/edu/course/2/lesson/4/2/practice)
+## 隨便戳一些簡單題
+- [ABC 372 A-D](https://atcoder.jp/contests/abc372/tasks)
+    - 到 E 應該都是教過的內容
+- [ABC 388 A-D](https://atcoder.jp/contests/abc388/tasks)
+    - 到 E 應該都是教過的內容
