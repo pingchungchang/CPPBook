@@ -164,3 +164,61 @@ for (int i = 2; i <= C; i++) {
 
 ### 高斯消
 - [TIOJ 2170](https://tioj.ck.tp.edu.tw/problems/2170)
+```cpp
+
+int N, M;
+const int mxn = 110;
+ll arr[mxn][mxn]; // arr[i][0] ~ arr[i][N-1]; arr[i][N] = x_i
+
+ll mad(ll a, ll b) {
+    a += b;
+    return (a >= M? a-M: a);
+}
+ll mub(ll a, ll b) {
+    return mad(a, M - b);
+}
+ll mul(ll a, ll b) {
+    return a * b % M;
+}
+ll pw(ll a, ll b) {
+    ll re = 1;
+    while (b) {
+        if (b&1) re = mul(re, a);
+        a = mul(a, a);
+        b >>= 1;
+    }
+    return re;
+}
+ll inv(ll a) {
+    return pw(a, M-2);
+}
+
+vector<int> gauss_elim() {
+    for (int i = 0; i < N; i++) {
+        int p = i;
+        while (p < N && arr[p][i] == 0) p ++;
+        for (int j = 0; j < N; j++) swap(arr[i][j], arr[p][j]);
+        ll coef = inv(arr[i][i]);
+        for (int j = 0; j <= N; j++) arr[i][j] = mul(arr[i][j], coef);
+        for (int j = i+1; j < N; j++) {
+            ll c = arr[j][i];
+            c = mub(0, c);
+            for (int k = 0; k <= N; k++) {
+                arr[j][k] = mad(arr[j][k], mul(c, arr[i][k]));
+            }
+        }
+    }
+    for (int i = N-1; i >= 0; i--) {
+        for (int j = i-1; j >= 0; j--) {
+            ll c = arr[j][i];
+            c = mub(0, c);
+            for (int k = 0; k <= N; k++) {
+                arr[j][k] = mad(arr[j][k], mul(c, arr[i][k]));
+            }
+        }
+    }
+    vector<int> ans(N);
+    for (int i = 0; i < N; i++) ans[i] = arr[i][N];
+    return ans;
+}
+```
