@@ -1,0 +1,47 @@
+---
+title: 'BIT'
+pubDate: 2024-11-25
+description: 'DS1'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import prefixsumImage from '../../images/prefixsum-graph.png';
+
+# BIT (Fenwick Tree）
+
+## 功能
+對於一個陣列 $a_1 \dots a_n$:
+- modify(p, x): $a_p \leftarrow x$
+- query(k): 求 $a_1 + a_2 + \dots a_k$ 的某樣資訊（e.g min/max/sum/xor）
+
+## 想法：
+### query
+定義 $dp_i$ 為 $\Sigma_{i-2^{lowbit(i)}+1}^i  a_i$ ，那就有 $\Sigma_1^x a_i = dp_x + \Sigma_1^{x-2^{lowbit(x)}} a_i$ ，所以如果有 $dp_i$ ，查詢就只要：
+
+```cpp
+int query(int p) {
+	int sum = 0;
+	for (;p>0; p-=p&-p) sum += bit[p];
+	return sum;
+}
+```
+
+### modify
+modify 時，只要改到 $i-lowbit(i) < p \le i$ 的 $dp_i$ 就好，會發現基本上就是 $p, p+lowbit(p), p+lowbit(p)+ lowbit(p+lowbit(p)) \dots$
+
+所以 modify 就變成
+```cpp
+void modify(int p, int v) {
+	for(;p<mxn;p+=p&-p) bit[p] += v;
+	return;
+}
+```
+
+注意到 bit 如果要做任意區間而不是前綴的話要有反元素，不然會有問題。
+
+如果 bit 要做前綴 min 的話會因為沒有反元素導致只能 modify 成更小的數字

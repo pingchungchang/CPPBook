@@ -206,3 +206,20 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [ABC 344 E](https://atcoder.jp/contests/abc344/tasks/abc344_e)
 - [ABC 328 A-E](https://atcoder.jp/contests/abc328/tasks)
 - [ABC 324](https://atcoder.jp/contests/abc324/tasks)
+
+# Week 12
+## 上課的技巧
+- 分數規劃：[化學100題](https://ojdl.ck.tp.edu.tw/contest/20/problem/E)
+    - 這題複雜度是 $O(n \times \epsilon)$ ，可能時限有點緊，要通過的話要會用 `std::nth_element`
+- [CSA Growing Trees](https://csacademy.com/contest/archive/task/growing-trees) 
+    <details><summary> 提示 </summary>
+        考慮樹上的每一條路徑都會是一個一次函數
+    </details>
+- [位元 DP](https://cses.fi/problemset/task/1690)
+- [另一題位元 DP](https://atcoder.jp/contests/abc215/tasks/abc215_e)
+
+## DP & DS
+- [CSES Money Sums](https://cses.fi/problemset/task/1745/)
+- [CSES Removal Game](https://cses.fi/problemset/task/1097)
+## 下週應該會講的題目
+- [CSES Increasing Subsequence II](https://cses.fi/problemset/task/1748/)
