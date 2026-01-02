@@ -223,3 +223,11 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [CSES Removal Game](https://cses.fi/problemset/task/1097)
 ## 下週應該會講的題目
 - [CSES Increasing Subsequence II](https://cses.fi/problemset/task/1748/)
+
+# Week 13
+資訊之芽的 pretest 可以寫一下
+- [TIOJ 2203](https://tioj.ck.tp.edu.tw/problems/2203)
+- [TIOJ 2208](https://tioj.ck.tp.edu.tw/problems/2208)
+- [TIOJ 2314](https://tioj.ck.tp.edu.tw/problems/2314)
+- [TIOJ 2162](https://tioj.ck.tp.edu.tw/problems/2162)
+- [TIOJ 2167](https://tioj.ck.tp.edu.tw/problems/2167)
