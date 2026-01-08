@@ -14,6 +14,9 @@ import treeImage from '../../images/tree.png';
 
 # Tree 2(樹）
 
+暖身
+- [CSES Counting Paths](https://cses.fi/problemset/task/1136)
+
 ## 樹 DP 的題目們
 基本上跟正常 DP 題目差不多
 - [CSES Tree Matching](https://cses.fi/problemset/task/1130)
@@ -21,4 +24,70 @@ import treeImage from '../../images/tree.png';
 ## 樹重心
 - 樹上的一個節點是重心若且唯若把他砍掉之後，剩下的連通塊每塊大小都 $\le$ 原本樹的一半
 - 找樹重心?
+重心還有的性質：
+- 以重心為根的情況下該樹的深度總和會最小
 
+## LCA (最近共同祖先)
+	<Image src={treeImage} alt="tree" width={400} />
+### 定義
+- 首先要是一個有根樹
+- 兩個點 a, b 的 LCA p 就是深度最深且同時是 a 跟 b 祖先的點
+- 比如說， lca(2, 6) = 0, lca(7, 5) = 5, lca(7, 8) = 6
+
+### how to 找 LCA
+
+#### 暴力
+```cpp
+int lca(int a, int b) {
+	while (a != b) {
+		if (dep[a] < dep[b]) b = par[b];
+		else a = par[a];
+	}
+	return a;
+}
+```
+#### 倍增
+定義 $dp_{i, j}$ 表示 $i$ 的第 $2^j$ 個祖先，則 $dp_{i, 0}$ 為 $i$ 的父節點。
+
+一樣可以發現 $dp[i][j] = dp[dp[i][j-1]][j-1]$ 所以可以跟 sparse table 一樣 $O(N \log N)$ 時間預處理。
+
+有這張表要怎麼找 LCA?
+
+首先先假設 a, b 深度一樣則可以用類似二分搜的方式找他們的 LCA
+
+```cpp
+int lca(int a, int b) {
+	if (a == b) return a;
+	for (int i = B-1; i >= 0; i--) {
+		if (dp[a][i] != dp[b][i]) a = dp[a][i], b = dp[b][i];
+	}
+	return dp[a][0];
+}
+```
+那深度不一樣怎麼辦？我們可以先把比較深的那個人跳到比較淺的人的深度。
+```cpp
+int lca(int a, int b) {
+	if (dep[a] < dep[b]) swap(a, b);
+	int d = dep[a] - dep[b];
+	for (int i = B-1; i >= 0; i--) {
+		if (d&(1<<i)) a = par[a][i];
+	}
+	if (a == b) return a;
+	for (int i = B-1; i >= 0; i--) {
+		if (dp[a][i] != dp[b][i]) a = dp[a][i], b = dp[b][i];
+	}
+	return dp[a][0];
+}
+```
+
+注意到這也可以順便儲存路徑上的一些資訊，比如說我們可以額外紀錄一個 $mn[i][j]$ 表示 $i$ 到 $i$ 的 $2^j$ 個祖先之間的最小點權。那這樣甚至可以順便維護路徑上的最小值（或者是總和也可以）。
+
+總之，LCA 是一個樹上問題很強力的工具，要練熟。
+
+### 練習題
+- [CSES Finding a Centroid](https://cses.fi/problemset/task/2079)
+- [CSES Company Queries I](https://cses.fi/problemset/task/1687)
+- [CSES Company Queries II](https://cses.fi/problemset/task/1688)
+- [CSES Distance Queries](https://cses.fi/problemset/task/1135)
+
+基本上除了 CSES Counting Paths 以前的 Tree Algorithms 都應該要可以做了。

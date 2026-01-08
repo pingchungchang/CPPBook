@@ -1,0 +1,66 @@
+---
+title: 'DS1'
+pubDate: 2024-11-25
+description: 'DS1'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import prefixsumImage from '../../images/prefixsum-graph.png';
+
+# Sparse Table
+
+今天討論的操作要滿足 $f(a, b, c) = f(f(a, b), f(b, c))$ 的形式（e.g. min/max/and/or）
+
+## Review: 倍增
+記得在做快速冪的時候，我們有 $x^{2^i} = (x^{2^{i-1}})^2$ 這種形式，表示我們可以用一次運算得到平方倍的資訊，並且用二進位拆解的方式得到 $x^k$ 的值。
+
+## Sparse Table （區間 min 為例）
+
+用類似的想法，我們可以定義 $dp_{i, j}$ 表示 $[i, i + 2^j)$ 的區間 min 。
+
+### build
+那顯然有 $dp_{i, 0} = a_i$ ，又稍微推一下可以發現 $dp_{i, 1} = min(a_i, a_{i+1}) = min(dp_{i, 0}, dp_{i+2^0, 0})$ 。
+
+算完所有人的 $dp_{i, 1}$ 之後，又可以發現 $dp_{i, 2} = min(a_i, a_{i+1}, a_{i+2}, a_{i+3}) = min(min(a_i, a_{i+1}), min(a_{i+2}, a_{i+3})) = min(dp_{i, 1}, dp_{i+2^1, 1})$
+
+稍微檢查之後可以發現就是 $dp_{i, j} = min(dp_{i, j-1}, dp_{i+2^{j-1}, j})$
+
+又 j 只有 $\log N$ 種不同數字， $i$ 有 $N$ 種不同數字 ，所以表格大小是 $O(N \log N)$ 的，又每一個格子只須要算兩個格子的 min ，所以算這張表格所需要的總時間是 $O(N \log N)$ 的。
+
+### query
+如果今天問 $[l, r]$ 的區間 min 的話，可以想成找一個 $d$ 使得 $2d \geq r-l+1 \geq d$ 這樣的話，我們會有 $min_l^r a_i = min(min_l^{l+d-1} a_i, min_{r-d+1}^r a_i)$ 。然後，如果我們 $d = 2^k (k \in \mathbb{N})$ 那上面那張表就會預處理到了。
+
+其實，k 就是 r-l+1 的 high bit （轉成二進位之後最前面的 1 的位置），可以用 `__lg(r-l+1)` 得到，且複雜度可以當成是 $O(1)$ 的（因為電腦硬體的設計）。
+
+### 實作
+```cpp
+struct ST {
+	int dp[mxn][20];
+	void build(int a[], int n) {
+		for (int i = 1; i <= n; i++) {
+			dp[i][0] = a[i];
+		}
+		for (int i = 1; i < 20; i++) {
+			for (int j = 1; j + (1<<i) - 1 <= n; j++) {
+				dp[j][i] = min(dp[j][i-1], dp[j+(1<<(i-1))][i-1]);
+			}
+		}
+		return;
+	}
+	int query(int l, int r) {
+		int d = __lg(r-l+1);
+		return min(dp[l][d], dp[r-(1<<d)+1][d]);
+	}
+};
+```
+
+基本上 sparse table 的實用價值相對不高，除非今天詢問的次數明顯超過陣列大小。
+
+## 練習題
+- [CSES Static Range Min](https://cses.fi/problemset/task/1647)
+- [TIOJ 1338](https://tioj.ck.tp.edu.tw/problems/1338) 順帶一題最近十多年來 IOI 就用 function 的形式了，TOI 模考也在前年開始全面改成這樣了。
