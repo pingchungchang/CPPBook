@@ -231,3 +231,21 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [TIOJ 2314](https://tioj.ck.tp.edu.tw/problems/2314)
 - [TIOJ 2162](https://tioj.ck.tp.edu.tw/problems/2162)
 - [TIOJ 2167](https://tioj.ck.tp.edu.tw/problems/2167)
+
+# Week14
+- [CSES Increasing Subsequence II](https://cses.fi/problemset/task/1748/)
+- [ABC DP Contest P](https://atcoder.jp/contests/dp/tasks/dp_p)
+- [CSES Company Queries I](https://cses.fi/problemset/task/1687)
+- [CSES Company Queries II](https://cses.fi/problemset/task/1688)
+- [CSES Distance Queries](https://cses.fi/problemset/task/1135)
+- [CSES MST Edge Check](https://cses.fi/problemset/task/3407)
+- [ABC 361 E](https://atcoder.jp/contests/abc361/tasks/abc361_e)
+    <details><summary> 提示 </summary>
+        想想看樹上哪些邊只要走一次，哪些邊會需要走兩次
+    </details>
+- [ABC 368 D](https://atcoder.jp/contests/abc368/tasks/abc368_d)
+- [CF 1057 A](https://codeforces.com/problemset/problem/1057/A): 給一棵樹，輸出從 1 號走到 $n$ 號的路徑
+- [ABC 070 D](https://atcoder.jp/contests/abc070/tasks/abc070_d)
+    <details><summary> 提示 </summary>
+        dis(s -> k -> t) = dis(s -> k) + dis(k -> t) = dis(k -> s) + dis(k -> t) 
+    </details>
