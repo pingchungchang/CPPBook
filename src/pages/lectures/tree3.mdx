@@ -1,0 +1,120 @@
+---
+title: 'tree3'
+pubDate: 2024-10-16
+description: 'tree3'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# Tree 3(樹）
+
+## 暖身
+- [CSA Crossing Tree](https://csacademy.com/contest/archive/task/crossing-tree/statement/)
+
+## 樹同構
+檢查兩棵樹是否長一樣
+### 有根樹
+直接好好把子樹形狀編號就好：
+```cpp
+vector<int> t1[mxn], t2[mxn];
+map<vector<int>, int> mp;
+int idx[mxn];
+
+int dfs(int now, int par, vector<int> t[]) {
+	vector<int> ch;
+	for (auto nxt: t[now]) {
+		if (nxt == par) continue;
+		dfs(nxt, now);
+		ch[now].push_back(dfs(nxt, now, t));
+	}
+	sort(ch.begin(), ch.end());
+	ch.push_back(-1);
+	if (mp.find(ch) == mp.end()) mp[ch] = mp.size() + 1;
+	idx[now] = mp[ch];
+	return idx[now];
+}
+
+bool same() {
+	return dfs(1, 1, t1) == dfs(1, 1, t2);
+}
+```
+$O(n \log n)$ (why?)
+
+### 無根樹
+- 可以對每個節點對當根都測一次，只要有一次對到就是同構，複雜度 $O(n \log n) times O(n^2) = O(n ^ 3 \log n)$
+- 第一個樹選好一個根，第二個樹全部試一次，複雜度 $O(n \log n) times O(n + 1) = O(n ^ 2 \log n)$
+- 找一個兩個樹都有的"特徵"，只要檢查以該"特徵"為根是否同構就好了
+	- 樹重心是個好特徵，因為每個樹最多只有兩個重心
+		- 複雜度 $O(n \log n)$
+	- 想想看為何不選數直徑兩端？
+
+
+## Euler Tour
+其實不一定要是樹才有 Euler Tour ，但是圖通常在上面 會用Euler Circuit/Path 而不是 Euler Tour ，所以通常講 Euler Tour 就是指在樹上面這個。
+
+通常這又被稱為樹壓平。
+
+間單說就是在 dfs 進去跟出來的時候都在樹上打一個 tag 。
+
+```cpp
+int ptr = 0;
+int in[mxn], out[mxn];
+void dfs(int now, int par) {
+	in[now] = ptr++;
+	for(auto nxt: tree[now]) {
+		if (nxt == par) continue;
+		dfs(nxt, now);
+	}
+	out[now] ++;
+}
+```
+大概長這樣
+
+這樣好處是什麼？會發現一個節點 $u$ 的子樹會被完全包含在 $[in[u], out[u]]$ 之間，所以可以做很多好玩的事情？
+
+## 例題
+[CSES Subtree Queries](https://cses.fi/problemset/task/1137)
+
+萬一今天要算的是路徑而不是子樹怎麼辦？
+- 如果有反元素 ($f(u,v) = pref[u] + pref[v] - 2 \times pref[lca(u, v]$)：
+	- [CSES Path Queries I](https://cses.fi/problemset/task/1138)
+- 不然可以樹鍊剖分（很高階的技術，基本上不應該要會用到）
+
+## 另一個樹壓平
+剛剛的時間戳是壓在進出 dfs 的時候，而有時候也可以壓在經過每條邊的時候：
+```cpp
+vector<int> eul;
+int id[mxn];
+void dfs(int now, int par) {
+	id[now] = eul.size();
+	eul.push_back(now);
+	for (auto nxt: tree[now]) {
+		if (nxt == par) continue;
+		eul.push_back(now);
+		dfs(nxt, now);
+	}
+	return;
+}
+```
+
+這樣經過一條邊時，會在兩端各自壓一個時間戳
+
+這樣能幹嘛？
+
+發現到對於任何兩個節點 $u, v$ ，那一定有一個 $lca(u, v)$ 在 $[in[u], in[v]]$ 之間，並且它會是當中深度最淺的點。
+
+所以，可以做到 $O(n \log n), O(1)$ LCA 了
+
+
+## 啟發式合併（以及帶權並查集）
+[CSES Distince Colors](https://cses.fi/problemset/task/1139)
+[union-find with potential](https://judge.yosupo.jp/problem/unionfind_with_potential)
+
+新知識應該先這些，剩下的時間來帶題目吧
+

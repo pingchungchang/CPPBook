@@ -1,0 +1,179 @@
+---
+title: 'CC'
+pubDate: 2024-11-25
+description: 'CC'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import prefixsumImage from '../../images/prefixsum-graph.png';
+
+# Connected Components
+名詞們：
+- 子圖：一張圖的子圖是這張圖保留部份的點跟邊所形成的圖
+- 點/邊連通度：一個整數 $k$ 使得一張圖至少要移除 $k$ 點，圖的連通塊數量才會變多。
+	- 比如說，一張圖的點連通度為 1 表示存在一個點使得拔掉之後，連通塊會變多(e.g: 一個超過兩個點的樹)
+- 點雙連通：點連通度=2
+- 邊雙連通：邊連通度=2
+- 割點：移除該點會讓圖的連通塊數量變多
+- 橋：移出該邊會讓圖的連通塊數量變多
+- 點 $k$ 連通分量：一張子圖使得他是點 $k$ 連通的，且無法加入更多的點使得他是點 $k$ 連通的（也就是說，他是極大的點 $k$ 連通子圖）
+
+## About 極大跟最大
+極大：已經不能再更大，但是可能是 local maximum \
+最大：global maximum \
+有時候極大值同時也會是最大值（e.g. 多數時候 greedy 的時候）；但是有時候極大值未必是最大值。
+
+## Sanity Check
+一張邊連通度 $\ge 2$ 的圖有沒有橋？
+
+## 思考
+給一張點連通度為 1 但邊連通度為 2 的圖
+
+## DFS Tree
+- Tree Edge: DFS Tree 上的邊
+- Back Edge: 回邊，往祖先指的邊
+- Forward Edge: 往子孫指的邊（只有有向圖的 DFS Tree 會有）
+- Cross Edge: 往非子孫也非祖先指的邊（只有有向圖的 DFS Tree 會有）
+
+## 邊雙連通
+
+假設圖是簡單連通的。
+
+注意到如果用 DFS 的，那蓋出 DFS Tree 之後，如果對一個點，他的子樹內沒有任何一條 back edge 可以飛到高於該點的地方的話，那這個節點往上的那條邊會是一個橋。
+
+所以，我們只要可以維護每個點往祖先跳一步可以跳到多高就可以找到橋了(可以用 dp 算），而注意到 dfs 時 dfs 序小的基本上會是祖先:
+```cpp
+int ptr = 0;
+int idx[mxn], dp[mxn];
+vector<pair<int, int>> bridges;
+vector<int> g[mxn];
+
+void dfs(int now, int par) {
+	idx[now] = dp[now] = ++ptr;
+	for (auto nxt: g[now]) {
+		if (!idx[nxt]) { // tree edge
+			dfs(nxt, now);
+			dp[now] = min(dp[now], dp[nxt]);
+		}
+		else { // back edge
+			dp[now] = min(dp[now], idx[nxt]);
+		}
+	}
+	if (dp[now] == idx[now]) {
+		if (par != -1) bridges.push_back(make_pair(now, par));
+	}
+}
+```
+
+## 找邊雙連通分量
+如果把圖上面的點雙連通分量縮起來，並且保留不同點雙連通分量之間的邊的話，那形成的圖會是一棵樹。
+
+### 方法 1
+把橋拔掉之後直接 dfs 就可以找到了
+
+### 方法 2
+稍微多拿一個 stack 就可以紀錄了
+
+```cpp
+int ptr = 0;
+int idx[mxn], dp[mxn];
+vector<pair<int, int>> bridges;
+int cc_cnt = 0;
+int cc_id[mxn];
+vector<int> g[mxn];
+vector<int> stk;
+
+void dfs(int now, int par) {
+	idx[now] = dp[now] = ++ptr;
+	stk.push_back(now);
+	for (auto nxt: g[now]) {
+		if (!idx[nxt]) { // tree edge
+			dfs(nxt, now);
+			dp[now] = min(dp[now], dp[nxt]);
+		}
+		else { // back edge
+			dp[now] = min(dp[now], idx[nxt]);
+		}
+	}
+	if (dp[now] == idx[now]) {
+		int x = -1;
+		cc_cnt ++;
+		do {
+			x = stk.back();
+			stk.pop_back();
+			cc_id[x] = cc_cnt;
+		} while(x != now);
+	}
+}
+```
+
+## 割點
+幾乎跟找橋一樣，只要稍微改一下
+
+剛剛找橋是說要找到一條邊可以跳到自己祖先，而現在是對於所有子節點，他們的子樹各自都要存在一條可以跳到自己祖先的邊。
+
+```cpp
+bool ap[mxn];
+int idx[mxn], low[mxn];
+int ptr = 0;
+void dfs(int now, int par) {
+	idx[now] = low[now] = ++cnt;
+	for (auto nxt: g[now]) {
+		if (idx[nxt]) {
+			low[now] = min(low[now], idx[nxt]);
+		}
+		else {
+			dfs(nxt, now);
+			if (low[nxt] >= idx[now]) ap[now] = true;
+			low[now] = min(low[now], low[nxt]);
+		}
+	}
+	return;
+}
+```
+
+## 找點雙連通分量
+### 方法 1
+一樣把割點拔掉之後直接 dfs ，找完之後在對應的點雙連通分量把割點加回來
+### 方法 2
+開一個 stack ... 等等，他會是一棵樹嗎？\\
+甚至會有兩個點雙共用一個節點（但最多也只會共用一個，因為共用兩個就會變成一個更大的點雙連通分量）\\
+
+## 圓方樹
+圓點表示原圖上的點，而方點表示點雙連通分量。因為任兩個點雙不會共用超過一個點，所以會是一棵樹，並且所有葉節點都是圓點。
+
+基本上不會用到，實作：
+```cpp
+vector<int> tr[mxn*2];
+void dfs(int now) {
+	idx[now] = low[now] = ++dfn;
+	stk.push_back(now);
+	for(auto nxt:g[now]) {
+		if (idx[nxt] == -1) {
+			dfs(nxt);
+			low[now] = min(low[now], low[nxt]);
+			if (low[nxt] == idx[now]) {
+				tr.push_back({});
+				int t = -1;
+				do {
+					t = stk.back();
+					stk.pop_back();
+					tr[gid+n].push_back(t);
+					tr[t].push_back(gid+n);
+				} while(t != nxt);
+				tr[now].push_back(gid+n);
+				tr[gid+n].push_back(now);
+				gid ++;
+			}
+		}
+		else low[now] = min(low[now], idx[nxt]);
+	}
+	return;
+}
+```
+
