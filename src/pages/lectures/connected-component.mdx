@@ -177,3 +177,45 @@ void dfs(int now) {
 }
 ```
 
+## 強連通
+一張圖是強連通的，表示對於任意兩點 $u, v$ 存在 $u \rightarrow v, v \rightarrow u$ 的路徑們
+
+## Tarjan(again)
+```cpp
+vector<int> g[mxn];
+int gid[mxn], idx[mxn], low[mxn];
+int ptr = 0, gcnt = 0;
+vector<int> stk;
+void dfs(int now) {
+    idx[now] = low[now] = ptr++;
+    stk.push_back(now);
+    for (auto nxt: g[now]) {
+        if (is_cross_edge || is_forward_edge) continue;
+        else if (is_backedge) low[now] = min(low[now], idx[nxt]);
+        else { // is tree edge
+            dfs(nxt);
+            low[now] = min(low[now], low[nxt]);
+        }
+    }
+    if (low[now] == idx[now]) {
+        // suffix in stack until now is the same SCC
+    }
+    return;
+}
+```
+## 強連通分量(SCC)
+- 極大的強連通子圖
+- 如果把一張圖的強連通分量縮成一個點，那這張圖會是一張 DAG
+
+## 2-SAT
+- 給一堆 $a OR b$ (e.g.: $!a_1 OR a_2, a_3 OR a_4$)，問是否可以把 $a_1, \dots a_n$ 每個人 assign 一個 true/false 來使每個 clause 都是 true
+- SCC 應用，把每個變數拆成 $a_1, !a_1$ 兩個，對於一個 clause $x OR y \leftrightarrow !x \rightarrow y, !y \rightarrow x$ ，如果有一個 $!x \rightarrow x, x \rightarrow !x$ 的路徑的話那就不可能有合法的分配方式
+- 否則就把比較後面的那個拿來 assign 給 x ，並把對應的不可能的刪掉
+
+## 例題
+- 邊雙：[CSES Necessary Roads](https://cses.fi/problemset/task/2076)
+- 點雙：[CSES Necessary Cities](https://cses.fi/problemset/task/2076)
+- SCC ：[CSES Coin Collector](https://cses.fi/problemset/task/1686)
+
+## 習題
+- [TIOJ 圓桌武士](https://tioj.ck.tp.edu.tw/problems/1684)
