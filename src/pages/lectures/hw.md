@@ -260,6 +260,14 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [CSA Connect the Graph](https://csacademy.com/contest/archive/task/connect-the-graph/)
 - [NewWorld Online](https://oj.ntucpc.org/problems/107)
 ## 樹壓平
+- [ABC 202E](https://atcoder.jp/contests/abc202/tasks/abc202_e)
 - [ABC 294G](https://atcoder.jp/contests/abc294/tasks/abc294_g)
 - [奇怪的樹上操作](https://oj.ntucpc.org/problems/27)
 - [迷宮設置](https://oj.ntucpc.org/problems/104)
+- [USACO Snow Cow](https://usaco.org/index.php?page=viewproblem2&cpid=973#)
+- [CF 600E](https://codeforces.com/contest/600/problem/E)
+## Connected Components
+- [芽芽逛大街](https://tioj.sprout.tw/problems/477/)
+- [謠言問題](https://tioj.sprout.tw/problems/164/)
+- [平衡的技能樹](https://tioj.sprout.tw//problems/475/)
+- [TIOJ 1683](https://tioj.ck.tp.edu.tw/problems/1683)
