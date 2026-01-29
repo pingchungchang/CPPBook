@@ -1,0 +1,222 @@
+---
+title: 'tree3'
+pubDate: 2024-10-16
+description: 'tree3'
+author: 'PCC'
+image:
+url: 'https://docs.astro.build/assets/rose.webp'
+alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# Computational Geometry(計算幾何)
+
+## 高中數學
+基本上高中競賽不太會，也不應該考超過二維的幾何問題
+
+三維的東西上次考出來全部人都倒很慘...
+
+### 向量
+$\vec{u} = (x, y)$
+```cpp
+template<typename T>
+struct Pt {
+    T x, y;
+    Pt(T _x = 0, T _y = 0): x(_x), y(_y) {}
+};
+// usage
+Pt<int> p = Pt<int>(1, 1);
+p.x = 10;
+p.y = 5;
+```
+
+### 加減法
+$\vec{u} + \vec{v} = (x_u+x_v, y_u + y_v)$
+```cpp
+template<typename T>
+struct Pt {
+    T x, y;
+    Pt(T _x = 0, T _y = 0): x(_x), y(_y) {}
+    Pt operator+(const Pt& b) const {
+        return Pt(x+b.x, y+b.y);
+    }
+    Pt operator-(const Pt& b) const {
+        return Pt(x-b.x, y-b.y);
+    }
+};
+// usage
+Pt<int> a(10, 5), b(20, 20);
+auto c = a+b;
+```
+
+### 內積
+$\vec{u} \cdot \vec{v} = x_u \cdot x_v + y_u \cdot y_v = |\vec{u}| \cdot |\vec{v}| \cdot \cos \theta$
+
+注意到 $\vec{u} \cdot \vec{v}$ 的正負號由 $\cos \theta$ 決定
+
+```cpp
+template<typename T>
+struct Pt {
+    // ...
+    T operator*(const Pt &b) const {
+        return x * b.x + y * b.y;
+    }
+};
+```
+
+### 有向面積（外積）
+其實這不是外積的定義，但是競賽圈通常稱呼這個是外積
+
+可以想成是 $(x_u, y_u, 0), (x_v, y_v, 0)$ 的外積（因為一定是 z 方向所以只在乎他的純量大小）
+
+$\vec{u} \times \vec{v} = x_u \cdot y_v - y_u \cdot x_v = |\vec{u}| \cdot |\vec{v}| \cdot \sin \theta = \Delta Ouv$ 面積
+
+注意到 $\vec{u} \times \vec{v}$ 的正負號由 $\sin \theta$ 決定
+
+```cpp
+template<typename T> 
+struct Pt {
+    // ...
+    T operator^(const Pt &b) const {
+        return x * b.y - y * b.x;
+    }
+};
+```
+### 多邊形面積
+就...自己套鞋帶公式算
+
+### 旋轉矩陣
+若要將座標平面逆時針旋轉 $\theta$ ，那對於所有 $\vec{u} = (x, y)$ ，旋轉完會變成
+$\begin{bmatrix}
+    \cos \theta & -\sin \theta \\
+    \sin \theta & \cos \theta
+\end{bmatrix} \cdot 
+\begin{bmatrix}
+    x \\
+    y
+\end{bmatrix}
+$
+
+
+## Pt 參考實作
+```cpp
+struct Pt {
+    ll x, y;
+    Pt(ll _x = 0, ll _y = 0): x(_x), y(_y) {}
+    Pt operator+(Pt b) const { return Px(x+b.x, y+b.y); }
+    Pt operator-(Pt b) const { return Pt(x-b.x, y-b.y); }
+    ll operator*(Pt b) const { return x*b.x+y*b.y; }
+    ll operator^(Pt b) const { return x*b.y-y*b.x; }
+    // C++ 17 lower
+    bool operator<(Pt b) const { return x==b.x?y<b.y:x<b.x; }
+    bool operator==(Pt b) const { return x==b.x && y == b.y; }
+    bool operator>(Pt b) const { return x==b.x?y>b.y:x<b.x; }
+    // since C++ 20
+    auto operator<=>(const Pt &b) const = default;
+}
+```
+## 方向與大小
+### 左邊右邊
+在以 $\vec{u}$ 為 +y 軸的情況下，判斷 $\vec{v}$ 在 +x 還是 -x
+
+### 上面下面
+在以 $\vec{u}$ 為 +y 軸的情況下，判斷 $\vec{v}$ 在 +y 還是 -y
+
+### 象限判斷
+給一個向量 $\vec{u}$ ，問一個向量 $\vec{v}$ 在以 $\vec{u}$ 為 y 軸的情況下在哪一象限（還是在 +/- x/y 軸上）
+
+
+### 旋轉矩陣
+寫出一個矩陣把 $\vec{u}$ 轉到 +y 軸上
+
+### 例題
+- [向左轉向右轉](https://tioj.sprout.tw//problems/355/)
+
+## 點線相交
+給一個線段 $(\vec{s}, \vec{t})$ 跟一個點 $\vec{u}$ ，問 $(\vec{s}, \vec{e})$ 這個線段有沒有通過 $\vec{u}$
+
+<details><summary> </summary>
+$(\vec{s}-\vec{u}) \cdot (\vec{t}-\vec{u}) \le 0$
+
+```cpp
+template<typename T> 
+bool onseg(Pt<T> s, Pt<T> t, Pt<T> u) {
+    return (s-u)*(t-u) <= 0;
+}
+```
+</details>
+
+## 線段相交
+給兩個線段 $(\vec{s_1}, \vec{e_1}), (\vec{s_2}, \vec{e_2})$ 問這兩個線段有沒有相交
+
+分 case 討論
+
+- 交在端點
+
+    - 判斷四個點分別有沒有被另一個線段交到
+
+- 交在中間
+
+    - 判斷兩條線段是否都把另一條線的兩點分在兩側
+### 例題
+- [線段相交](https://tioj.sprout.tw/problems/356/)
+
+## 極角排序
+把一堆向量 $\vec{u_1}, \vec{u_2} \cdots \vec{u_n}$ 照逆時針順序排好
+
+- atan2:
+    ```cpp
+        vector<Pt> v;
+        sort(v.begin(), v.end(), [&](Pt& a, Pt& b) {
+            return atan2(a.y, a.x) < atan2(b.y b.x);
+        });
+    ```
+- 切成上下半平面，則分別有一個全序關係，分別排完之後再合併
+### 例題
+- [Sort Points By Argument](https://judge.yosupo.jp/problem/sort_points_by_argument)
+- [TIOJ 1205](https://tioj.ck.tp.edu.tw/problems/1205)
+- [數三角形](https://tioj.sprout.tw/problems/502/)
+
+## 凸包
+想像成在二維平面上釘了一堆釘子，要拿一條橡皮筋把釘子全部包住的最小長度。因為是橡皮筋所以會繃到最緊
+
+### 蓋上下凸包 (Andrew's Monotone Chain)
+把所點按照 x,y 軸排好，可以觀察到第一個人跟最後一個人一定在凸包上
+
+接下來就開始跑單調 stack 就好了
+
+### 極角排序
+找 x,y 最小的點，他一定在凸包上。剩下的人極角排序之後一樣用單調 stack 蓋
+
+## 旋轉卡尺
+想成沿著一個凸多邊形轉兩條平行的線卡住他，可以發現轉的時候兩邊卡到的 index 都會遞增，所以可以用雙指標維護
+
+### 例題
+- [TIOJ 1105](https://tioj.ck.tp.edu.tw/problems/1105)
+
+！！！ 要注意這只有找 global 的最遠點對才會是對的，如果要找每個人的最遠點的話要用轉移點單調做
+
+## 轉移點單調（有空的話講，但應該是會有空）
+對於一個 $n$ 個點的凸多邊形，我們定義一個 $n \times 2n$ 的二維矩陣 $dis[i][j]$ 表示：
+- $i \le j < i+n: dis(\vec{a_i}, \vec{a}_{j \% n})$
+- else: $-\infty$
+
+觀察到另 $h_i = argmax(dis[i][*])$ （也就是 $max(dis[i][*]) = dis[i][h_i])$）。假設我們 $h_i$ 都取合法的人當中最小的，那我們會有 $h_i \le h_{i+1}$ ，也就是最好的轉移點是遞增的。
+
+所以可以用之後（應該）會教到的分治優化解決！
+
+## 掃描線
+直接看[題目](https://tioj.ck.tp.edu.tw/problems/1224)
+
+## 小結
+基本上計算幾何的題目大多都是這些基本題目，外面套上一些枚舉或資料結構等等的變形。所以計算幾何題目的重點就是要把這些基本的實作記熟，要用的時候拿來當黑盒子用，之後再一步一步把黑盒子拆開來寫出來。
+
+
+## 例題
+- [TIOJ 1974](https://tioj.ck.tp.edu.tw/problems/1974)
+- [TIOJ 2183](https://tioj.ck.tp.edu.tw/problems/2183)
+- [最小凸多邊形](https://tioj.sprout.tw/problems/357/)
+- [CSES Convex Hull](https://cses.fi/problemset/task/2195)

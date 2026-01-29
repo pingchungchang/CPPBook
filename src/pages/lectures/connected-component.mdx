@@ -203,6 +203,38 @@ void dfs(int now) {
     return;
 }
 ```
+
+實作
+```cpp
+vector<int> g[mxn];
+int gid[mxn], idx[mxn], low[mxn];
+int ptr = 0, gcnt = 0;
+vector<int> stk;
+void dfs(int now) {
+    idx[now] = low[now] = ++ptr;
+    stk.push_back(now);
+    for (auto nxt: g[now]) {
+        if (gid[nxt]) continue;
+        else if (idx[nxt]) low[now] = min(low[now], idx[nxt]);
+        else {
+            dfs(nxt);
+            low[now] = min(low[now], low[nxt]);
+        }
+    }
+    if (low[now] == idx[now]) {
+        int x = -1;
+        gcnt ++;
+        do {
+            x = stk.back();
+            stk.pop_back();
+            gid[x] = gcnt;
+        } while (x != now);
+    }
+    return;
+}
+```
+
+
 ## 強連通分量(SCC)
 - 極大的強連通子圖
 - 如果把一張圖的強連通分量縮成一個點，那這張圖會是一張 DAG
