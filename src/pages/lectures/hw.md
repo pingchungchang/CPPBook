@@ -273,3 +273,6 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [TIOJ 1683](https://tioj.ck.tp.edu.tw/problems/1683)
 
 # Week 16
+## 複習
+- [ABC 337G](https://atcoder.jp/contests/abc337/tasks/abc337_g)
+- [ABC 334G](https://atcoder.jp/contests/abc334/tasks/abc334_g)
