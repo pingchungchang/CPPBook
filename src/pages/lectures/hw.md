@@ -276,3 +276,11 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 ## 複習
 - [ABC 337G](https://atcoder.jp/contests/abc337/tasks/abc337_g)
 - [ABC 334G](https://atcoder.jp/contests/abc334/tasks/abc334_g)
+
+## 計算幾何-基礎
+- [向左轉向右轉](https://tioj.sprout.tw//problems/355/)
+- [CSES Point in Polygon](https://cses.fi/problemset/task/2192)
+- [TIOJ 1205](https://tioj.ck.tp.edu.tw/problems/1205)
+- [CSES Convex Hull](https://cses.fi/problemset/task/2195)
+- [數三角形](https://tioj.sprout.tw/problems/502/)
+- [最遠點對](https://tioj.ck.tp.edu.tw/problems/1105)
