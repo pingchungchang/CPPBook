@@ -1,0 +1,208 @@
+---
+title: 'strings'
+pubDate: 2024-10-16
+description: 'string'
+author: 'PCC'
+image:
+url: 'https://docs.astro.build/assets/rose.webp'
+alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+
+# String(字串)
+
+## 名詞
+- 字串（string）：就是一堆字元（character）組成的陣列（本質上 `std::string` 就是一個 `std::vector<char>` 再多一些額外東西）
+- 子字串：一個字串中的一段連續區間（e.g. s = "abcde", s[0:2] = "abc"），方便起見這邊用 1-based
+- 字元集：在題目中字元可以出現的集合，通常用 $\Sigma$ 表示。
+    - e.g. 大寫字母 $\Sigma = $\{'A', 'B', $\cdots$ 'Z'\}
+    - 字元集大小（數量）通常用 $|\Sigma|$ 表示
+- 前綴：$s[0:i]$
+- 後綴：$s[i:|s|-1]$
+- 字串加法：$t=\text{"ab"}, s = \text{"abcde"}$ 則 $s+t = \text{"abcdea"b}$
+    - 同理，$c = \text{'a'}, s = \text{"abcde"}$ 則 $s+c = \text{"abcdea"}$
+
+高中的字串問題都集中在解決字串匹配
+## 字串匹配（string matching）
+給兩個字串 $s, t$ ，問在字串 $s$ 中滿足 $S[i:i+|t|] = t$ 的 $i$ 有幾個
+
+## brute force
+應該沒問題吧？
+```cpp
+string s, t;
+
+int ans = 0;
+for (int i = 0; i + t.size() < s.size(); i++) {
+    if (s.substr(i, t.size()) == t) ans ++;
+}
+```
+
+時間複雜度 $O(|s|\times |t|)$
+
+## Hashing
+意思是把一個大小為 $X > Y$ 的集合打到大小為 $Y$ 的集合上
+
+把字串當成一個 $|\Sigma|+1$ 進位制的數字
+
+定義一個把字元集一對一打到 $\{1 \cdots |\Sigma|\}$ 的 function $f$
+- e.g. $\Sigma = \{ \text{'a'} \cdots \text{'z'} \}$ ，則有一個 $f(c) = c-\text{'a'}+1$
+    - $f(\text{'a'}) = 1, f(\text{'z'}) = 26$
+
+定義 $g(s) = \Sigma f(s[i]) \times (|\Sigma|+1)^i$
+- e.g $g(\text{"tioj"}) = 20 \times 1 + 9 \times 27 + 15 \times 27 ^ 2 + 10 \times 27 ^ 3$
+
+兩個字串 $s, t$ 一樣若且唯若 $g(s) = g(t)$
+
+- 為什麼喜歡整數而不要字串？
+- 有辦法很快的算 $g(s[i:j])$ 嗎？
+    - 令 $pref[i] = g(s[0:i])$ ，這部份可以邊走邊算
+    - $g(s+c) = g(s) + f(c) \times (|\Sigma|+1)^{|s|}$
+    - 那 $g(s[i:j]) = (pref[j]-pref[i-1]) \times (|\Sigma|+1)^{-(i-1)}$
+- 這樣要怎麼在 $O(|s|+|t|)$ 時間做字串匹配？
+
+假設一個整數（long long/int ）能存下的整數為 $[0, C)$ ，那 $g(s)$ 在 $|s| = \Omega(\log_{|\Sigma+1|} C)$ 的時候就為溢位！
+
+所以，比起存下整個整數，我們可以用一個 function 把 g 的值域打到 $[0, C)$ 中（注意到這裡我們不要求 g 打到 $[0, C)$ 要一對一，因為一定辦不到）
+- e.g. $g(s) \% C$
+
+所以，我們定義我們的 hash function $H(s) = g(s) \% C$
+
+這樣我們就把所有字串打到 $[0, C)$ 之間的整數了
+
+可是，這樣會有兩個問題
+### Hash Collision
+我們剛剛做了 hashing 之後會是多對一的
+
+有可能有兩個字串 $s \ne s'$, 滿足 $H(s) = H(s')$
+
+這種情況叫做 hash collision （碰撞）
+
+如果今天的字串是隨機的（H(s) 對不同 s 都是獨立的），那碰撞機率是多少？
+- 生日悖論(birthday paradox)
+
+帶回來會發現如果取的 modulo 是 $C$ ，那大概每 $\sqrt C$ 個字串會碰撞一次！
+
+所以，通常競賽中會使用多個 hashing 來把碰撞機率調低，比如說每次 hashing 都取三個不同的 $C$ 做一次，這樣碰撞機率就是 $O(\frac{1}{\sqrt{C_1 \times C_2 \times C_3}})$
+
+注意到生日悖論的前提是 hash function 是隨機的，但是通常多數人習慣取 $C = 10 ^ 9 + 7$ ，且 $\Sigma+1$ 取 29 （等等會解釋為何不要取剛好 $\Sigma$）。而這種情況下是可以刻意構造測資卡掉的
+
+[hash cracker](https://heltion.github.io/anti-hash/)
+
+注意到我們要避免碰撞，那顯然不能有一個 $i \le |s|, (|\Sigma|+1)^{i} \equiv 0 (mod \text{ } C)$ ，在數學上，我們會希望 $|\Sigma|+1$ 是 $C$ 的 **原根**
+
+### 要怎麼很快找子字串的 hash ？
+另 $p$ 是我們取的進位制（也就是前面的 $|\Sigma| + 1$，但是你只要取大於這個值當作 $p$ 就好）
+
+$g(s[i:j]) \% C = H(s[i:j]) = (pref[j]-pref[i-1]) \times p^{-(i-1)}$ mod $C$
+
+所以我們需要保證 $p$ 在 $C$ 下有反元素才可以算 $H(s[i:j])$ (當然，根據題目性質如果只是單純要比較相等可能不須要用除法)
+
+因此，為了方便起見通常 $p, C$ 都會各自取一個質數來運算
+- e.g. 
+    - $p = 29, C = 10^9+7$
+    - $p = 31, C = 998244353$
+    - $p = 131, C = 712271227$
+
+基本上高中競賽 hashing 可以做掉非常多題目了
+
+如果不喜歡這種隨機的不確定性，或者不喜歡模運算的超大常數，那可以考慮使用 KMP 跟之後講到的 Z-algorithm 
+
+### 例題
+- [CSES String Matching](https://cses.fi/problemset/task/1753)
+- [CSES Num Cube Sets](https://csacademy.com/contest/archive/task/num-cube-sets/)
+- [OJDL PCC 字串](https://ojdl.ck.tp.edu.tw/contest/22/problem/E)
+
+## KMP
+定義 $LPS(s)$ 表示 $s$ 的**次長共同前後綴**長度 \
+也就是最大的 $0 \le i < |s|$, s.t. $s[0:i-1] = s[|s|-i:|s|-1]$
+
+為啥不是最長？因為 $i = |s|$ 一定成立
+
+定義 $pi[i] = LPS(s[0:i])$, $pi[0] = 0$
+
+假設我們可以在 $O(|s|)$ 的時間把一個 $s$ 的 $pi$ 算好，那我們能怎麼做字串匹配？
+    - 蓋 $t+\text{'\#'}+s$ 的 $pi$ 陣列
+
+### 蓋 $pi$ 陣列
+
+```cpp
+int pi[mxn];
+string s;
+pi[0] = -1;
+if (s.size() > 1 && s[0] == s[1]) pi[1] = 1;
+else pi[1] = 0;
+for (int i = 2; i < s.size(); i++) {
+    int j = i-1;
+    while(j > 0 && s[pi[j]] != s[i]) {
+        j = pi[j] - 1;
+    }
+    if (j > 0) pi[i] = pi[j] + 1;
+    else if (s[0] == s[i]) pi[i] = 1;
+    else pi[i] = 0;
+}
+```
+為啥是線性的？
+
+要更短的實作可以參考 [隊上的 codebook](https://github.com/PringDeSu/revoNTUlet_codebook/blob/main/src/string/kmp.cpp) ，他應該是 1-based 的
+
+### 常數更好的 $O(|s|+|t|)$ KMP 作法
+
+## Z algorithm
+維護 $z[i] = $ 最大的 $l$ s.t. $z[0:l-1] = z[i:i+l-1]$
+
+一樣可以線性算
+
+## Trie
+基本上就是一個樹，從跟開始往下走的一段路徑會是一個字串。
+
+懶的畫圖所以上課畫
+
+code:
+```cpp
+struct node {
+    int ch[26];
+    node() {
+        memset(ch, 0, sizeof(ch));
+    }
+};
+int ptr = 0;
+int newnode() {
+    return ++ptr;
+}
+node trie[mxn * 26];
+
+void add(int rt, string s) {
+    int now = rt;
+    for (auto &i: s) {
+        if(!trie[now].ch[i-'a']) trie[now].ch[i-'a'] = newnode();
+        now = trie[now].ch[i-'a'];
+    }
+    // do sth to now
+}
+
+int main() {
+    int rt = newnode();
+    for (int i = 0; i < n; i++) {
+        string s;
+        cin >> s;
+        add(rt, s);
+    }
+}
+```
+
+### 例題
+- [ABC 353E](https://atcoder.jp/contests/abc353/tasks/abc353_e)
+- [ABC 403E](https://atcoder.jp/contests/abc403/tasks/abc403_e)
+- [CSES Word Combinations](https://cses.fi/problemset/task/1731)
+
+## 應用題
+- [TIOJ 1032](https://tioj.ck.tp.edu.tw/problems/1032): 神 hashing
+- [CSES Palindrome Queries](https://cses.fi/problemset/task/2420)
+- [CSES Finding Borders](https://cses.fi/problemset/task/1732)
+- [CSES Finding Periods](https://cses.fi/problemset/task/1733)
+- [TIOJ 2027](https://tioj.ck.tp.edu.tw/problems/2027)
+- [CSES Maximum Xor Subarray](https://cses.fi/problemset/task/1655)
+- [CSAcademy Xor Submatrix](https://csacademy.com/contest/archive/task/xor-submatrix/)
+- [CSAcademy Online XorMax](https://csacademy.com/contest/archive/task/online_xormax/)
