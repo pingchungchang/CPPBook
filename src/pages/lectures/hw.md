@@ -284,3 +284,36 @@ cout << fixed << setprecision(20) << x; // 輸出 20 位數小數
 - [CSES Convex Hull](https://cses.fi/problemset/task/2195)
 - [數三角形](https://tioj.sprout.tw/problems/502/)
 - [最遠點對](https://tioj.ck.tp.edu.tw/problems/1105)
+
+# Week 17
+## 計算幾何應用
+- [TIOJ 2396](https://tioj.ck.tp.edu.tw/problems/2396)
+- [OJDL 7201](https://ojdl.ck.tp.edu.tw/problem/7201)
+- [OJDL 7203](https://ojdl.ck.tp.edu.tw/problem/7203)
+## Hashing
+- [PCC 字串](https://ojdl.ck.tp.edu.tw/problem/7174)
+- [CSES Palindrome Queries](https://cses.fi/problemset/task/2420)
+- [CSAcadamy Similar Words](https://csacademy.com/contest/archive/task/similar_words/statement/)
+## KMP
+- [CSES Finding Periods](https://cses.fi/problemset/task/1733)
+## 目前教過範圍的雜題
+- [TIOJ 2390](https://tioj.ck.tp.edu.tw/problems/2390)
+- [TIOJ 2392](https://tioj.ck.tp.edu.tw/problems/2392)
+- [TIOJ 2397](https://tioj.ck.tp.edu.tw/problems/2397)
+- [TIOJ 1892](https://tioj.ck.tp.edu.tw/problems/1892)
+- [TIOJ 1907](https://tioj.ck.tp.edu.tw/problems/1907)
+- [TIOJ 1337](https://tioj.ck.tp.edu.tw/problems/1337)
+如果題目不夠就去 codeforces 戳 800 ~ 1700 的題目練習，風格會跟我們教過的差很多但是要會做
+
+這裡有超過一百題了耶，感覺偏少？
+
+## Virtual
+virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢討跟補題
+
+我發現這裡的題目超過一百題了，後面寫題會越來越順的
+
+檢討的部份可能有些題目我也不會做，需要花時間想
+- [COCI 2019 R1](https://oj.uz/problems/source/coci20182019r1)
+- [COCI 2019 R2](https://oj.uz/problems/source/coci20182019r2)
+- [JOI Final 2017](https://oj.uz/problems/source/joifinal20162017)
+- [SNOI 2017](https://oj.uz/problems/source/sgnoi2017)
