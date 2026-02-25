@@ -1,0 +1,133 @@
+---
+title: 'OI'
+pubDate: 2024-11-25
+description: 'OI'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import oi_route from '../../images/oi-route.png';
+
+# 高中比賽策略
+每年 IOIC 都會放的圖片
+<Image src={oi_route} alt="oi-route" />
+[記分板 archive](https://sorahisa-rank.github.io/oi-toi/)
+
+## OI
+- 有部份分
+- 不太需要管錯的次數，可以暴傳
+    - 多數情況上傳限制是 50 次左右
+- 目前沒出現過非典型題目
+
+## about 初選
+- 會先高一（含以下）、高二、高三各自先保三人
+    - 剩下的再按照順序收滿 20 人
+- 女保大概會有 6 個左右？
+- 高一保的線大概會在 250 分附近
+    - 去年不知道搞啥鬼飛到 288
+- 不要太在乎線是幾分，這樣會搞到自己賽中心態
+- 目前每年都是 A 最簡單，B 第二簡單（去年跟 2021 年例外）
+    - 基本上要做出兩題＋部份分就夠了
+
+## about 比賽策略
+最好要有策略，不然會卡在那邊猶豫到底要衝還是看題很不妙
+- 最不妙的是寫到一半突然覺得好像應該換策略，這樣會浪費時間
+每個人適合的策略不一定一樣，要看你屬於
+- 很會思考
+    - 那你可以多花時間思考衝滿分解
+- 很會實作
+    - 那你可以花少一點時間思考，直接拿部份分輾他
+- 很會經典題，但不會猜梗
+    - 那可以先把該拿的拿完之後再花時間觀察
+
+### 同學的講法（初選）
+- 開場打模板（vimrc, template code）
+- 30 min 左右可以做完 A 
+- 上廁所/吃東西
+- 40 min 把剩下的題目看完
+- 1 hr 左右做完 B
+- 上廁所/吃東西
+- 1.5 ~ 2 hr 再做完一題
+- 上廁所/吃東西
+- 想其中一題的滿分解，想 15 min 
+- 有滿分解就開寫，不然開始喇分
+- 2 hr 45 min 每題都要有分數，繼續喇分
+
+### 建議
+- 上廁所很重要，一直待在電腦前有時候會太焦慮
+    - 古老的名言：「上廁所次數與模考成績成正相關」
+- 部份分很重要，一定要拿
+    - 理想上應該要做到每題都有分數
+
+### 5 hr OI 賽打法範例
+- 30 min 把題目看完，把看完就想到的子題圈起來，可能簡單紀錄一下作法跟複雜度
+    - 連續給分就把限制算一算看可以拿幾分
+- 把剛剛圈起來的部份分寫掉
+    - 大概 1 hr 到 1.5 hr 可以做完第一輪
+- while(!比賽結束)
+    - 每題花 10 ~ 15 min 認真想，再把多想到的子題圈出來
+    - 把剛剛圈出來的部份分寫掉
+    - if(感覺有可以多想一點點就得分的子題)
+        - 下一輪先想那題，並把該題的思考時間拉長
+
+特徵：
+- 幾乎每題都有分
+- 降低因為某題壞掉造成的影響
+- 思考時間不長
+- 多半的時間花在實作上
+
+原因：
+- 對經典題跟實作有一定的熟練度，所以子題都很容易看出來
+- 模考/全國賽題目都有壞掉過 ==
+- 思考能力不足，那我就拿一堆子題扁他
+    - 你一個 100 分打不過我四個 30 分
+
+## about 科技
+科技指的是像是 treap、AC 自動機等等比較大型的資料結構或演算法
+- TOI 基本上不會有太大的科技，但是默認大家都會的東西還是會考。
+    - e.g. hashing, lca, 線段樹, trie 等等
+- 有不少人覺得學科技很有趣（包含我）
+
+現階段應該還沒有這個問題，~~畢竟目前還沒有教到那麼後面的東西~~
+
+目前教的東西姑且都可以在 TOI/全國賽理所當然地出現
+
+**注意考前不要亂學科技，會造成很危險的科技中毒**
+- 真的會出大事，我高一就掃描線中毒做不出 A 過
+
+## about 實作
+- 就...多寫題
+- 有好的 code 也方便之後拿其他子題的時候 code 可以重複利用
+- 可能養成一些好的習慣
+    - 包 struct
+    - 好好拉 function
+    - assert 
+    - 科技最好背起來（高中比賽大多不能帶模板）
+    - 編譯器警告開好開滿
+        -  `g++ -fsanitize=address,undefined -g a.cpp`
+        -  `g++ -Wall -Wextra a.cpp`
+- default code 很方便，比如說每份程式碼都需要的東西
+    - `#define fs first`
+    - `#define ll long long`
+    - `int main()`
+
+## about IDE
+- 其實沒啥差別，不管用 vim 還是用 codeblock 或是用 vs code 都可以有人打得很好
+    - 但是碰到 function 類型的題目時還是要會用終端機或 ide 內建的功能！
+
+## about vim
+- 其實就是一套 key binding ，學習曲線有點陡峭，但是學會了就可以用終端機打程式！
+    - 好處： 比賽時會給 shell script 幫你處理編譯問題，可以直接在終端機打完之後直接用同一個終端機編譯
+    - codeblocks 在 ubuntu 賽中有一些人反映會當機
+
+## about 一些好的 OI （現在講可能真的太早了）
+- [JOISC](https://oj.uz/problems/source/joisc)/[JOIOC](https://oj.uz/problems/source/joioc)：非常有價值的 OI ，題目類型涵蓋了 IOI 目前出過的所有題型。但是真的很難，高中的時候一題可以想一整天那種。
+- [JOI Final](https://oj.uz/problems/source/joifinal)：比較接近初選，前兩題都不難，第三題開始會比較有趣。最後一題通常是 JOISC 難度但都挺有價值的。
+- [CEOI](https://oj.uz/problems/source/ceoi)：比較少出經典題，都出一些思考很詭異的題目
+- [BOI](https://oj.uz/problems/source/boi)：偶爾有比較經典的題目，有難度但通常至少有一題可以做
+- [APIO](https://oj.uz/problems/source/apio)：比賽品質起伏很大，會放在這裡是因為 APIO 會被算在選國手的成績中
+    - 雖然比重很低但還真的有人被逆掉

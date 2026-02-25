@@ -191,11 +191,127 @@ int main() {
     }
 }
 ```
-
 ### 例題
 - [ABC 353E](https://atcoder.jp/contests/abc353/tasks/abc353_e)
 - [ABC 403E](https://atcoder.jp/contests/abc403/tasks/abc403_e)
 - [CSES Word Combinations](https://cses.fi/problemset/task/1731)
+
+## Suffix Array（後綴數組）
+對一個字串的所有後綴做字典序排序
+
+高中只要知道怎麼在 $O(N \log N)$ 時間就好（基本上線性解賽中根本寫不完）
+
+### Naive 作法
+```cpp
+string s;
+int n = s.size();
+vector<int> sa(n, 0);
+iota(sa.begin(), sa.end(), 0);
+sort(sa.begin(), sa.end(), [&](int a, int b) {
+    return s.substr(a, s.size()-a) < s.substr(b, s.size()-b);
+});
+```
+
+### 倍增
+```cpp
+int ord[mxn];
+string s;
+int n = s.size();
+vector<int> sa(n, 0);
+iota(sa.begin(), sa.end(), 0);
+for (int i = 0; i < n; i++) ord[i] = s[i];
+for (int i = 0; i < 20; i++) {
+    vector<pii> v(n);
+    for (int j = 0; j < n; j++) {
+        v[j].first = ord[i];
+        if (j + (1<<i) < n) v[j].second = ord[j+(1<<i)];
+        else v[j].second = -1;
+    }
+    sort(sa.begin(), sa.end(), [&](int a, int b) {
+        return v[a] < v[b];
+    });
+    pii pre = pii(-1, -1);
+    int ptr = 0;
+    for (int j = 0; j < n; j++) {
+        int now = sa[j];
+        if (pre != sa[now]) ptr ++;
+        ord[now] = ptr;
+        pre = now;
+    }
+}
+// sa is done!
+```
+應該容易看出複雜度是 $O(N \log ^ 2 N)$
+
+### 用 radix sort 替代 sort
+```cpp
+int n;
+int rnk[mxn];
+vector<pair<pii,int>> v[mxn];
+pair<pii,int> buf[mxn];
+ 
+void bucket_sort(int d){
+	for(auto &i:v)i.clear();
+	for(int i = 0;i<n;i++){
+		if(i+d<n)buf[i] = {{rnk[i],rnk[i+d]},i};
+		else buf[i] = {{rnk[i],0},i};
+		v[buf[i].fs.sc].push_back(buf[i]);
+	}
+	int cnt = 0;
+	for(auto &i:v){
+		for(auto &j:i){
+			buf[cnt++] = j;
+		}
+		i.clear();
+	}
+	for(int i = 0;i<n;i++){
+		v[buf[i].fs.fs].push_back(buf[i]);
+	}
+	pair<pii,int> pre = {{-1,-1},-1};
+	cnt = 0;
+	for(auto &i:v){
+		for(auto &j:i){
+			if(j.fs.fs != pre.fs.fs||j.fs.sc != pre.fs.sc)rnk[j.sc] = ++cnt;
+			else rnk[j.sc] = cnt;
+			pre = j;
+		}
+	}
+	return;
+}
+
+for (int i = 0; i < n; i++) rnk[i] = s[i];
+for (int i = 1; i = n; i <<= 1) bucket_sort(i);
+```
+
+### LCP
+```cpp
+for (int i = 0; i < n; i++) pos[rnk[i]] = i;
+for(int i = 0;i<n;i++){
+    int pi = rnk[i];
+    if(pi == 0){
+        k = max(k-1,0);
+        continue;
+    }
+    int pre = pos[pi-1];
+    while(pre+k<n&&i+k<n&&s[pre+k] == s[i+k])k++;
+    h[pi] = k;
+    k = max(k-1,0);
+}
+```
+
+### 各種用途
+- 找兩個 substring 的 LCP：問區間最小值
+- 問多少相異 substring: 枚舉開頭之後簡單排容
+
+### 例題
+- [CSES Repeating Substring](https://cses.fi/problemset/task/2106)
+- [CSES Substring Order](https://cses.fi/problemset/task/2108/)
+- [CSES Substring Distribution](https://cses.fi/problemset/task/2108/)
+- [TIOJ 2155](https://tioj.ck.tp.edu.tw/problems/2155)：這題常數很緊，所以可能要用更強的 SA 去壓或者是抄別人的模板
+
+### 線性 SA
+主流有兩種： SAIS 跟 DC3 ，而目前大學競賽有以 SAIS 為主，因為比 DC3 快非常多。
+
 
 ## 應用題
 - [TIOJ 1032](https://tioj.ck.tp.edu.tw/problems/1032): 神 hashing
