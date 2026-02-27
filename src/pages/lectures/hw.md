@@ -317,3 +317,24 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [COCI 2019 R2](https://oj.uz/problems/source/coci20182019r2)
 - [JOI Final 2017](https://oj.uz/problems/source/joifinal20162017)
 - [SNOI 2017](https://oj.uz/problems/source/sgnoi2017)
+
+# Week 18
+## DP/圖論
+記得圖論題可能要把圖轉一下變成可以算的東西
+- [Atcoder DP J](https://atcoder.jp/contests/dp/tasks/dp_j): 好好想一下狀態怎麼定義
+- [2025 建中校內初賽](https://tioj.ck.tp.edu.tw/contests/105)
+- [CSA Divisor Clique](https://csacademy.com/contest/archive/task/divisor_clique/)
+- [RGB](https://oj.ntucpc.org/problems/823)
+- [會爬樹的獅子](https://oj.ntucpc.org/problems/773)
+- [病毒](https://oj.ntucpc.org/problems/756)
+- [充電站](https://oj.ntucpc.org/problems/761)
+- [旅遊優惠卷](https://oj.ntucpc.org/problems/754)
+- [CSES Bus Company](https://cses.fi/problemset/task/3158)
+- [CSES Graph Girth](https://cses.fi/problemset/task/1707)
+- [ABC 262D](https://atcoder.jp/contests/abc262/tasks/abc262_d)
+
+## 其他
+自己戳一些 ABC 的 A-E 
+
+或者是可以去練 [codeforces Div.4](https://codeforces.com/contests?filterTypes=div4&filterRated=&filterTried=&filterSubstring=)
+- [CSAcademy Black Shapes](https://csacademy.com/contest/archive/task/black-shapes/)
