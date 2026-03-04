@@ -1,0 +1,67 @@
+---
+title: 'Computer'
+pubDate: 2024-11-25
+description: 'Computer'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import address_space from '../../images/address-space.png';
+
+# 基本電腦知識
+基本上都是對競賽而言沒啥營養的東西們
+## 程式碼如何運作
+- C/C++ source code 電腦看不懂
+- 編譯器負責轉成電腦看得懂的 machine code
+- 電腦讀 machine code 執行
+## 處理器(CPU)
+- 一堆邏輯閘組成
+- 有少量的暫存器（register)
+- 基本上大多的資料都存在 RAM/Memory 上，要用的時候再使用 load/store 指令丟到暫存器裡面或存回 memory
+- 只看得懂一堆 0 跟 1 
+    - e.g. 在 riscv 下 "0000000,01010,01001,000,01001,0110011" 表示的是 `add x9, x9, x10`
+- 一個處理器看得懂的東西是他的 ISA (Instruction Set Architecture)
+    - 常見的例子：arm, x86_64 ...
+
+## 記憶體
+- **不是硬碟**
+- 程式碼運行時資料暫時儲存的地方(你在寫 C/C++ 中的變數基本上都在這裡有一份資料)
+- 因為存取速度比 CPU 算的速度慢，所以 CPU 會用 cache（快取）把用過的資料放到 CPU 自己的 cache 中
+    - 這是為什麼滾動 DP 通常比正常開高維度陣列快的原因
+
+## Address Space
+程式碼的結構如圖
+<Image src={address_space} alt="address-space" />
+- function 中的區域變數會放在 stack 中，function 結束之後會消失
+    - 所以區域變數跟他們的 pointer 只能在該 function 活著的時候使用
+- heap 是動態開記憶體的地方
+    - 在 C++ 中執行 `int* x = new int()` 就是把變數開在 heap 上
+    - C++ vector 也是把資料存在 heap ，因為不能在編譯期間知道大小要多大
+    - `malloc` 也是用這塊記憶體
+    - 通常 memory leak 指的就是有人用 `malloc`/`new` 但是忘記用 `free/delete` 把自己使用的記憶體回收
+        - 在競賽中 memory leak 九成的時候不會有問題，頂多 fsanitize 會叫而已
+        - C++ 中的 stl 有好好處理自己死掉時把佔用的 heap 清掉
+    - heap 還有很多好玩的地方，像是 `free`/`malloc` 時怎麼找夠多的記憶體之類的，但這部份比較跟資安有關就先割愛不細講
+- 一個可能會寫出來，但是有問題的程式碼
+```cpp
+const int mxn = 404;
+int* product(int a[], int b[], int n) {
+    int c[mxn];
+    for (int i = 0; i < n; i++) {
+        c[i] = a[i] * b[i];
+    }
+    return (int*)c;
+}
+int main() {
+    int a[mxn];
+    int b[mxn];
+    for (int i = 0; i < mxn; i++) a[i] = 10, b[i] = 20;
+    int* c = product(a, b, n);
+}
+```
+- global, static 看有沒有初始化放在 initialized/uninitialized data segment 那邊
+
