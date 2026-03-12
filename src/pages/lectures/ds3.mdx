@@ -1,0 +1,145 @@
+---
+title: 'DS3'
+pubDate: 2026-03-10
+description: 'DS3'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import prefixsumImage from '../../images/prefixsum-graph.png';
+
+# Data Structures 3 (資料結構 3）
+
+# 暖身
+- [CF 356A](https://codeforces.com/contest/356/problem/A)
+- [CF 1234D](https://codeforces.com/contest/1234/problem/D)
+
+# 更多線段樹
+其實本來想要先講離線，但是好像先把線段樹弄熟會比較有幫助
+- [拆位元](https://oj.ntucpc.org/problems/908)
+- [拆懶標](https://oj.ntucpc.org/problems/180)
+- [好好下推懶標](https://ojdl.ck.tp.edu.tw/problem/7219)
+- [一樣好好推懶標](https://oj.ntucpc.org/problems/22)
+- [不要無腦推懶標](https://oj.ntucpc.org/problems/167)
+
+# Treap
+Treap 是一種[二元搜尋樹](./bst)
+
+注意到正常的 BST 沒有辦法好好保證自己的深度是在 $O(\log N)$ 量級，而 treap 則是做到**期望**上是夠淺的！
+
+我們先來理解一下以下的操作：
+## BST Merge
+### Statement
+給兩個二元樹 $T_a, T_b$ ，其中個別最深的深度分別是 $d_a, d_b$ ，則我們可以在 $O(d_a+d_b)$ 的時間把 $T_b$ 接到 $T_a$ 右邊
+
+右邊的定義是中序遍歷時 $T_b$ 的任何節點都出現在 $T_a$ 的任何節點後面
+
+### pseudo code
+```cpp
+struct nd {
+    nd *pl, *pr;
+    int val;
+};
+
+nd* merge(nd* a, nd* b) {
+    if (!a) return b;
+    if (!b) return a;
+    a -> pr = merge(a -> pr, b);
+    return a;
+}
+```
+$O(d_a)$ ，會有問題的情況是 $T_a$ 很深
+
+### 稍微變形一點
+```cpp
+nd* merge(nd* a, nd* b) {
+    if (!a) return b;
+    if (!b) return a;
+    b -> pl = merge(a, b -> pl);
+    return a;
+}
+```
+$O(d_b)$ ，會有問題的情況是 $T_b$ 很深
+
+### 那我們來隨機
+```cpp
+nd* merge(nd* a, nd* b) {
+    if (!a) return b;
+    if (!b) return a;
+    int key_a = rand();
+    int key_b = rand();
+    if (key_a > key_b) {
+        a -> pr = merge(a -> pr, b);
+    }
+    else {
+        b -> pl = merge(a, b -> pl);
+    }
+    return a;
+}
+```
+如果我們從頭到尾創造到 merge 都使用這種隨機，那我們每次 merge 的期望複雜度就是 $O(\log N)$ 的（假設我們總共 merge 了 $N$ 個節點）。
+
+雖然是期望的但是這個用到的隨機性很難被刻意構造卡掉。
+
+### 改成把 key 存在 node 中也會對
+```cpp
+struct nd {
+    nd *pl, *pr;
+    int val, key;
+    nd(int _val): val(_val) {
+        pl = pr = 0;
+        key = rand();
+    }
+};
+nd* merge(nd* a, nd* b) {
+    if (!a) return b;
+    if (!b) return a;
+    if (a -> key > b -> key_b) {
+        a -> pr = merge(a -> pr, b);
+    }
+    else {
+        b -> pl = merge(a, b -> pl);
+    }
+    return a;
+}
+```
+因此，我們在這邊引出了 treap 為何叫 treap:
+- 用 val 來看的話，他是一個 BST
+- 用 key 來看的話，他會是一個 Heap
+
+跟 merge 相對地，Treap 也有 split 操作：
+### BST Split
+```cpp
+// splits val <= tar to nl > tar to nr
+void split(nd* now, nd* &nl, nd* &nr, int tar) {
+    if (!now) {
+        nl = nr = 0;
+    }
+    if (now -> val <= tar) {
+        nl = now;
+        split(now -> pr, nl -> pr, nr, tar);
+    }
+    else {
+        nr = now;
+        split(now -> pl, nl, nr -> pl);
+    }
+}
+```
+同時，也可以照 size 切，切出左邊有 $x$ 個右邊有 $N-x$ 個（想一下怎麼改）
+
+## Treap Operations
+BST 很強的地方是，線段樹可以做的他基本上大多都行
+- Merge
+- Split
+
+一樣可以打懶標，但是自己注意在哪裡下推跟上拉
+- [例題](https://cses.fi/problemset/task/2072)
+- [打懶標](https://cses.fi/alon/task/2073)
+
+treap 最強的就是他可以剪下貼上的能力
+
+這東西基本上賽中很少用到，通常用到除非是真的需要區間翻轉或剪貼不然通常寫線段樹就夠了，又快又好寫
