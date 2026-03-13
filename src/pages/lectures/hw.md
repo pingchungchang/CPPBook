@@ -338,3 +338,22 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 
 或者是可以去練 [codeforces Div.4](https://codeforces.com/contests?filterTypes=div4&filterRated=&filterTried=&filterSubstring=)
 - [CSAcademy Black Shapes](https://csacademy.com/contest/archive/task/black-shapes/)
+
+# Week 19
+## 字串
+- [CSES Palindrome Queries](https://cses.fi/problemset/task/2420)
+- [CSES Finding Borders](https://cses.fi/problemset/task/1732)
+- [CSES Finding Periods](https://cses.fi/problemset/task/1733)
+- [TIOJ 2027](https://tioj.ck.tp.edu.tw/problems/2027)
+- [CSES Maximum Xor Subarray](https://cses.fi/problemset/task/1655)
+- [CSAcademy Xor Submatrix](https://csacademy.com/contest/archive/task/xor-submatrix/)
+- [CSAcademy Online XorMax](https://csacademy.com/contest/archive/task/online_xormax/)
+## 其他
+如果有餘力的話可以一天刷一場 div.4 看看（？
+- [NTUCPC 328](https://oj.ntucpc.org/problems/328)
+- [NTUCPC 325](https://oj.ntucpc.org/problems/325):好好定座標應該不難
+- [NTUCPC 325](https://oj.ntucpc.org/problems/326)
+- [CF R790](https://codeforces.com/contest/1676)
+- [CF R849](https://codeforces.com/contest/1791)
+- [CF R784](https://codeforces.com/contest/1669)
+- [CF R995](https://codeforces.com/contest/2051)
