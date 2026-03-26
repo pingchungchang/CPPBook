@@ -12,19 +12,103 @@ layout: '../../layouts/MyLayout.astro'
 import { Image } from 'astro:assets';
 
 # 離線算法
+理論上例題應該有稍微排序過難度(?
+
+但是這些題目都還是有一定難度，最好對資料結構要**很熟**
 
 ## 在線 v.s. 離線
+- [簡單的離線](https://cses.fi/problemset/task/1677)
 
 ## 掃描線
+- 就是之前講過的那些，仔細想想會發現做區間相異數跟做矩形覆蓋是在做同一件事情（把東西畫在二維表格上，然後沿著一個軸掃過去）
+- 通常都需要搭配一些資料結構做事情（像是線段樹、bit 或前綴和）
+### 帶題目
+- [TIOJ 2405](https://tioj.ck.tp.edu.tw/problems/2405)
+- [rooks(CF)](https://codeforces.com/contest/524/problem/E)
+- [rooks(CSA)](https://csacademy.com/contest/archive/task/rooks/)
+- [TIOJ 最小公倍數](https://tioj.ck.tp.edu.tw/problems/1872)
+基本上掃描線可以做的東西大多都可以持久化做掉，但是可能常數會變大不少
+
+### 大致上的想法
+基本上，掃描線的題目都是需要某個黑盒子資料結構，可以先掃一個維度之後看自己的黑盒子需要支援哪些操作再去改
 
 ## 莫隊
+簡單說就是這樣：
+```cpp
+const int B = sqrt(N);
+struct Q{
+    int l, r, id;
+};
+vector<Q> v(N);
+sort(v.begin(), v.end(), [&](Q& a, Q& b) {
+    return a.l/B == b.l/B? a.r<b.r:a.l/B<b.l/B;
+});
+int pl = 0, pr = 0;
+add(0);
+for (auto &i: v) {
+    while (i.r <= pr) add(++pr);
+    while (i.l > pr) add(--pl);
+    while (i.r > pr) del(pr--);
+    while (i.l < pl) del(pl++);
+}
+```
+然後 add(), del() 是增減一個元素的動作
+- [例題 1](https://cses.fi/problemset/task/1734)
+- [例題 2](https://tioj.ck.tp.edu.tw/problems/2122)
+- [例題 3](https://atcoder.jp/contests/abc293/tasks/abc293_g)
+
+### 複雜度
+發現到把每 $B$ 個人看成一塊，每一塊 r 只會一直往右走 $O(N)$ 步，而 $l$ 的移動範圍只有 $O(B)$ 。所以複雜度是 $O(\frac{N}{B} \cdot N + N B)$ ， $B$ 取 $\sqrt N$ 的時候就是 $O(N \sqrt N)$
 
 ### 奇偶優化
+把 sort 改一下通常常數可以省一倍
+```cpp
+sort(v.begin(), v.end(), [&](Q& a, Q& b) {
+    return a.l/B == b.l/B? (a.l/B)&1?a.r<b.r:a.r>b.r:a.l/B<b.l/B;
+});
+```
+
+### 回滾莫隊
+有時候你只能有 add() 不能有 del() ，像是 max, min, DSU 或均攤複雜度的東西們（他可以來回戳 $O(N)$ 那段讓你的複雜度炸開）
+
+不能刪就不要刪：按照 $l, r$ 分 case:
+- l, r 在同一塊：直接做，因為這樣只要 $O(\sqrt N)$
+- l, r 再不同塊：可以先維護 l 那一塊到 r 的答案，之後再補做 l 那塊的右界到 l 的那段，這一小段只有 $O(\sqrt N)$
+
+- [就是 dsu](https://codeforces.com/edu/course/2/lesson/7/3/practice/contest/289392/problem/B)
+- [可能簡單點的例題](https://loj.ac/p/2874)
+- [只有找到很難的例題](https://tioj.ck.tp.edu.tw/problems/1902)
 
 ### 詢問修改的不對稱性
+會發現莫隊需要做 $O(N \sqrt N)$ 次修改，但是只要做 $O(N)$ 次詢問
+
+所以適當地使用資料結構可以降低複雜度
+
+- 比如說你要找區間第 $k$ 小唯一元素之類的
 
 ## 整體二分搜
+- 就是一次做全部人的二分搜，要確定二分搜完要確定所有詢問會被分到某一邊
+- 他可以帶修改
+- [王老先生](https://tioj.ck.tp.edu.tw/problems/1919)
+- [agc 002D](https://atcoder.jp/contests/agc002/tasks/agc002_d)
+- 我們拿他做看看[區間第 $k$ 小](https://tioj.ck.tp.edu.tw/problems/1840)
 
 ## CDQ 分治
+簡單說就是一個處理三維偏序的框架
+```cpp
+void dc(int l, int r) {
+    if (l == r) {// do sth.
+        return;
+    }
+    int mid = (l+r) >> 1;
+    dc(l, mid);
+    calc(l, mid, r);
+    dc(mid+1, r);
+}
+```
+- 想法是對第一個維度排序，第二個維度做 merge sort ，第三個維度用資料結構很快算答案
+- 有什麼用？時間也是一個維度！
+- [ojdl 7172](https://ojdl.ck.tp.edu.tw/problem/7172)
+- [帶修改逆序數對](https://codeforces.com/contest/785/problem/E)
 
-## 持久化
+CDQ 分治之後 DP 優化可能會再稍微帶到一次，但用途可能不太一樣
