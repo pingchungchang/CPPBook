@@ -357,3 +357,20 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [CF R849](https://codeforces.com/contest/1791)
 - [CF R784](https://codeforces.com/contest/1669)
 - [CF R995](https://codeforces.com/contest/2051)
+
+# Week 19
+## DS3
+- [OJDL 7219](https://ojdl.ck.tp.edu.tw/problem/7219)
+- [我推的盤子](https://oj.ntucpc.org/problems/22)
+- [區間 NAND](https://oj.ntucpc.org/problems/167)
+- [Treap 1](https://cses.fi/problemset/task/2072)
+- [Treap 2](https://cses.fi/alon/task/2073)
+## 離線
+- [rooks(CF)](https://codeforces.com/contest/524/problem/E)
+- [ABC 293G](https://atcoder.jp/contests/abc293/tasks/abc293_g)
+- [TIOJ 2122](https://tioj.ck.tp.edu.tw/problems/2122)
+- [ABC 242G](https://atcoder.jp/contests/abc242/tasks/abc242_g)
+- [ABC 384G](https://atcoder.jp/contests/abc384/tasks/abc384_g)
+- [回滾莫隊 1](https://codeforces.com/edu/course/2/lesson/7/3/practice/contest/289392/problem/B)
+- [回滾莫隊 2](https://loj.ac/p/2874)
+- [ABC 405G](https://atcoder.jp/contests/abc405/tasks/abc405_g):這題有把 log 卡掉，所以做到 $O(N \sqrt N)$
