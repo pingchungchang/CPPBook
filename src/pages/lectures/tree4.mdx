@@ -1,0 +1,39 @@
+---
+title: 'tree3'
+pubDate: 2024-10-16
+description: 'tree3'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# Tree 4(樹）
+這裡的東西會變得有點困難，理解上的難度也會上升不少
+
+有問題就盡量問清楚，如果我說不清楚那可以去查一下線上資源 \>\<
+
+今天的東西講完 CSES 的 tree 應該就得寫得完了
+
+## 重心 again
+應該沒忘記重心吧？
+- [CSES Fix-Length Paths I](https://cses.fi/problemset/task/2080)
+
+首先，先想想這問題放在樹上是怎麼做的？
+- 直接數啊
+- 笨一點...用分治！
+
+好！我們來想想辦法對樹分治
+
+然後就出現了重心分治（a.k.a 重心剖分、點分治）
+
+分治數數的概念是看有幾個區間經過中間的 "縫" （mid, mid+1 之間那個），因而去算答案。而沒有經過中間的縫的就往左右遞迴處理
+
+在重心剖分，我們算的是有幾條路徑經過 "重心" ，而剩下的人一定不會過重心可以直接拔掉，因而答案規模可以縮小
+- 因為重心會保證剩下的子樹大小各自都小於一半
+
+希望我可以當場實作

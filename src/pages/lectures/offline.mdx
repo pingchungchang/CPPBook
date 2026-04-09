@@ -27,6 +27,7 @@ import { Image } from 'astro:assets';
 - [rooks(CF)](https://codeforces.com/contest/524/problem/E)
 - [rooks(CSA)](https://csacademy.com/contest/archive/task/rooks/)
 - [TIOJ 最小公倍數](https://tioj.ck.tp.edu.tw/problems/1872)
+
 基本上掃描線可以做的東西大多都可以持久化做掉，但是可能常數會變大不少
 
 ### 大致上的想法
@@ -112,3 +113,194 @@ void dc(int l, int r) {
 - [帶修改逆序數對](https://codeforces.com/contest/785/problem/E)
 
 CDQ 分治之後 DP 優化可能會再稍微帶到一次，但用途可能不太一樣
+
+## 分治
+- [ZJ f413](https://zerojudge.tw/ShowProblem?problemid=f413)
+
+    ~~我們可以等資芽上完分治再講這個~~
+
+## DFS
+找 k-ancestor 當然也可以離線 $O(n+q)$ 時間做完
+```cpp
+vector<int> stk;
+vector<int> tree[mxn];
+vector<pii> req[mxn];
+int ans[mxn];
+void dfs(int now, int par) {
+    stk.push_back(now);
+    for (auto [k, id]: req[now]) {
+        if (stk.size() <= k) {
+            ans[id] = -1;
+        }
+        else {
+            ans[id] = stk.end()[-1-k];
+        }
+    }
+    for (auto nxt: tree[now]) {
+        if (nxt == par) continue;
+        dfs(nxt, now);
+    }
+    stk.pop_back();
+    return;
+}
+
+int main() {
+    // input
+    for (int i = 0; i < q; i++) {
+        int u, k;
+        cin >> u >> k; // ask the k-level ancestor of u
+        req[u].push_back(pii(k, i));
+    }
+    memset(ans, -1, sizeof(ans)); // btw memset 只有在 -1, 0 的時候會是對的，自己注意一下
+    dfs(1, 1);
+}
+```
+
+## 時間線段樹
+當你的操作只有 `add` 沒有 `del` ，但是可以做到 `undo` 上一個操作
+### 例題
+[CSES Dynamic Connectivity](https://cses.fi/problemset/task/2133)
+
+如果只有加邊跟詢問的話，那可以直接 dsu 。
+
+dsu 可以 undo ，但是這樣路徑壓縮會變得很麻煩而且不會變快，所以不如只用路徑壓縮。
+
+undo 複雜度：$O(1)$ 但是 root() 跟 onion() 都會變成 $O(\log N)$
+
+```cpp
+// 只用啟發式合併的 dsu
+struct DSU {
+    int dsu[mxn];
+    int sz[mxn];
+    vector<pii> ops[2]; // ops[0] 存要回滾讓 dsu[first] = second
+                        // ops[1] 存要回滾讓 sz[first] = second
+    int root(int k) {
+        return k == dsu[k]? k: root(dsu[k]);
+    }
+    void onion(int a, int b) {
+        a = root(a);
+        b = root(b);
+        if (sz[a] < sz[b]) swap(a, b);
+        ops[0].push_back(pii(b, dsu[b]));
+        ops[1].push_back(pii(a, sz[a]));
+        if (a == b) return;
+        dsu[b] = a;
+        sz[a] += sz[b];
+    }
+    void rollback() {
+        // 這樣寫是因為 structural binding 用 a, b 會撞名
+        {
+            auto [a, b] = ops[0].back();
+            ops[0].pop_back();
+            dsu[a] = b;
+        }
+        {
+            auto [a, b] = ops[1].back();
+            ops[1].pop_back();
+            sz[a] = b;
+        }
+    }
+};
+```
+
+所以...我們把這東西套到線段樹上。
+
+```cpp
+struct SEG {
+    #define mid ((l+r)>>1)
+    #define ls now*2+1
+    #define rs now*2+2
+    vector<pii> ops[mxn*4];
+    void addop(int now, int l, int r, int s, int e,pii op) {
+        if (l >= s && e >= r) {
+            ops[now].push_back(op);
+            return;
+        }
+        if (mid >= s) addop(ls, l, mid, s, e, op);
+        if (mid < e) addop(rs, mid+1, r, s, e, op);
+        return;
+    }
+};
+```
+
+`addop` 做完所有區間加操作之後，對於一個時間點 `t` ，該時間所做過的操作就是從根節點走到 `t` 經過的節點操作們。
+
+```cpp
+DSU dsu;
+
+struct SEG {
+    #define mid ((l+r)>>1)
+    #define ls now*2+1
+    #define rs now*2+2
+    void addop(int now, int l, int r, int s, int e, pii op);
+    void get_dsu(int now, int l, int r, int t) {
+        for (auto &[a, b]: ops[now]) {
+            dsu.onion(a, b);
+        }
+        if (l == r) {
+            // dsu 處理好了
+        }
+        else {
+            if (mid >= t) get_dsu(ls, l, mid, t);
+            else get_dsu(rs, mid+1, r, t);
+        }
+        // 找完之後要把做過的操作回滾掉，不然下一次查詢會壞掉
+        for (auto &[a, b]: ops[now]) {
+            dsu.undo();
+        }
+    }
+}
+```
+
+但是，這樣抓一個時間點可能就需要 $O(q)$ 的時間了，很虧
+
+線段樹的結構明明就很好，可以直接 dfs 一次算所有時間點的答案！
+
+```cpp
+DSU dsu;
+
+struct SEG {
+    #define mid ((l+r)>>1)
+    #define ls now*2+1
+    #define rs now*2+2
+    void addop(int now, int l, int r, int s, int e, pii op);
+    void dfs(int now, int l, int r) {
+        for (auto &[a, b]: ops[now]) {
+            dsu.onion(a, b);
+        }
+        if (l != r) {
+            dfs(ls, l, mid);
+            dfs(rs, mid+1, r);
+        }
+        else {
+            // 時間點 l 的 dsu 處理好了
+            // 如果這個時間點有詢問就問一問放到答案陣列裡面
+        }
+        for (auto [a, b]: ops[now]) {
+            dsu.undo();
+        }
+    }
+};
+```
+
+順帶一提其實 dsu 跟 sz 陣列可以壓在一起
+```cpp
+struct DSU {
+    int p[mxn];
+    DSU() {
+        memset(p, -1, sizeof(p));
+    }
+    int root(int k) {
+        return dsu[k] == -1? k: dsu[k] = root(dsu[k]);
+    }
+    void onion(int a, int b) {
+        a = root(a);
+        b = root(b);
+        if (a == b) return;
+        if (-p[a] < -p[b]) swap(a, b);
+        p[a] += p[b];
+        p[b] = a;
+    }
+};
+```
+複雜度：每個操作最多被放在 $O(\log q)$ 個相異區間，所以最多線段樹上存在 $O(q \log q)$ 個操作要做，每個操作要 $O(\log n)$ 因此總複雜度是 $O(q \log q \log n)$
