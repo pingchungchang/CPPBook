@@ -374,3 +374,20 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [回滾莫隊 1](https://codeforces.com/edu/course/2/lesson/7/3/practice/contest/289392/problem/B)
 - [回滾莫隊 2](https://loj.ac/p/2874)
 - [ABC 405G](https://atcoder.jp/contests/abc405/tasks/abc405_g):這題有把 log 卡掉，所以做到 $O(N \sqrt N)$
+
+# Week 20
+## 離線
+基本上 offline 裡面已經有一些習題我就先不重複貼了
+
+這邊就多放一些離線題
+
+- [TIOJ 1890](https://tioj.ck.tp.edu.tw/problems/1890)
+- [TIOJ 1903](https://tioj.ck.tp.edu.tw/problems/1903)
+    其實這兩題差不多，只是 N 很小有一個比較好寫的解法
+- [CF 813F](https://codeforces.com/contest/813/problem/F)
+- [CF 1140F](https://codeforces.com/problemset/problem/1140/F)
+- [CF 601E](https://codeforces.com/problemset/problem/601/E)
+- [三維偏序](https://www.luogu.com.cn/problem/P3810)
+- [JOISC Examination](https://oj.uz/problem/view/JOI19_examination)
+- [CF 1093E](https://codeforces.com/contest/1093/problem/E)
+- [CSA Interval Expected Max](https://csacademy.com/contest/archive/task/interval-expected-max/)
