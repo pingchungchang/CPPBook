@@ -1,0 +1,115 @@
+---
+title: 'dp2'
+pubDate: 2026-04-20
+description: 'dp2'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# DP2
+回來 DP 了，這邊應該會比較不麻煩一點點（？
+
+## 暖身
+- [tioj 1939](https://tioj.ck.tp.edu.tw/problems/1939)
+- [tioj 1476](https://tioj.ck.tp.edu.tw/problems/1476)
+- [ABC 275E](https://atcoder.jp/contests/abc275/tasks/abc275_e)
+
+## 單調隊列優化
+- [CSES Sliding Window Minimum](https://cses.fi/problemset/task/3221)
+- [TIOJ 1566](https://tioj.ck.tp.edu.tw/problems/1566)
+
+## 斜率優化
+- [CSES Monster Game I](https://cses.fi/problemset/task/2084)
+- [CSES Monster Game II](https://cses.fi/problemset/task/2085)
+- [CSES Subarray Squares](https://cses.fi/problemset/task/2086)
+
+## 轉移點單調
+講到這邊就要順便講轉移點單調了
+
+這個詞的意思是轉移點只會單調往右/往左所以我們可以拿一個資料結構很快地找出轉移點是誰
+
+最經典的就是[TIOJ 1283](https://tioj.ck.tp.edu.tw/problems/1283)
+
+## 四邊形優化
+因為大多都會滿足四邊形不等式。但不等式其實不太重要，重要的是要有以下的性質
+- 對於兩個點 $i, j$ ，他們對所有其他點 $k$ 轉移的函數 $f(i, k), f(j, k)$ 的關係符合以下定義：
+    - 找得到一個 $k$ （k 可以到 $n+1$ 或 $-1$），使得在 $k'\le k$ 時，$f(i, k) \le f(j, k)$ ，但是當 $k' \ge k+1$ 時，$f(i, k) > f(j, k)$
+
+這個式子可以想像成剛剛斜率優化時兩條直線最多交一點，且在交點後都是其中一個人贏的性質。只是現在沒辦法 $O(1)$ 算出來誰贏了而已
+
+雖然不能 $O(1)$ 算交點，但是剛剛這件事情會讓我們斜率優化時的 deque 還是可以用的！而交點則是可以用二分搜來找出來！
+
+- [CSES Houses and Schools](https://cses.fi/problemset/task/2087/)
+- [TIOJ 1449](https://tioj.ck.tp.edu.tw/problems/1449)
+- [TIOJ 1347](https://tioj.ck.tp.edu.tw/problems/1347)：注意精度跟時間，這題很卡
+
+## 分治優化
+知道轉移點單調但不知道有沒有凸/凹性嗎？直接分治弄他！
+
+```cpp
+// cost function
+ll calc(int i, int j);
+
+// 要算 l 到 r 的值但是只知道他們的轉移點在 tl 到 tr 之間
+void dc(int l, int r, int tl, int tr) {
+    int opt = tl;
+    int m = (l+r) >> 1;
+    for (int i = tl; i <= tr; i++) {
+        if (calc(i, m) > calc(opt, m)) opt = i;
+    }
+    // 因為知道轉移點單調，且 m 的轉移點在 opt ，所以 l 到 m-1 的轉移點在 opt 前
+    if (l != m) dc(l, m-1, tl, opt);
+    // 因為知道轉移點單調，且 m 的轉移點在 opt ，所以 m+1 到 r 的轉移點在 opt 後
+    if (m != r) dc(m+1, r, opt, tr);
+}
+```
+有發現一個問題嗎？這東西不能處理有相依性的 case！比如說 $dp[i] = dp[j] + ...$ ，因為分治當下跟本不知道 dp 值分別是多少
+
+另一個問題是這只適用於凸性，凹性的話會發現方向不太對勁，因為後面的人會先贏一段時間之後又輸掉，導致這個很難用分治切好。
+
+解決方法有兩個：
+    - 幹出他的凸性，直接上四邊形。複雜度 $O(n \log n)$
+    - 用 CDQ 分治把問題離線處理好。複雜度 $O(n \log ^ 2 n)$
+
+## CDQ 與分治優化
+```cpp
+ll calc(int i, int j);
+
+ll dp[mxn];
+// 正常做分治優化
+void dc(int l, int r, int tl, int tr);
+
+void cdq(int l, int r) {
+    if (l == r) {
+        return;
+    }
+    int m = (l+r) >> 1;
+    cdq(l, m);
+    dc(m+1, r, l, m);
+    cdq(m+1, r);
+}
+```
+
+## 對 DP 陣列的差分做事
+上面都是針對大小關係做事，現在我們針對差分
+## Aliens 優化
+- [SGNOI Feast](https://oj.uz/problem/view/NOI19_feast)
+
+當作沒看到 $K$ ，可以輕易地列出一個 dp ：
+- `dp[i] = max(dp[j] + pref[i]-pref[j], dp[i-1])`
+有看到 $K$ 就多一個維度
+- `dp[i][k] = max(dp[j][k-1] + pref[i]-pref[j], dp[i-1][k])`
+
+主要的觀察是把 DP v.s. K 畫在二維表格上，發現他有凸性（差分遞減）的性質，這會讓該圖形是一個凸包。而我們要找的則是在某個 K 以前的最大 DP 值。
+
+所以我們換個想法，我們對這個凸包的斜率做二分搜找出我們要的目標。而作法就是選一個 penalty P ，把 dp 改寫成 `dp[i] = dp[j] + pref[i]-pref[j] - p` 。這樣在二維圖形上就等於在找某一條斜率為 p 的線切到的最高點。
+
+當場畫圖應該會清楚很多。
+
+## Slope Trick

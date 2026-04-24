@@ -38,7 +38,259 @@ import treeImage from '../../images/tree.png';
 
 希望我可以當場實作
 
+### 重心樹
+來理解一下線段樹，會發現他是把分治的過程記錄下來
+
+而重心樹則是在紀錄重心分治的過程！
+
+### 例題
+- [CF 342E Xenia and Tree](https://codeforces.com/contest/342/problem/E)
+
 ## HLD
 另一種在樹上面處理陣列問題的想法是把樹拆成很多條鍊，以及一些跨到不同鍊之間的邊
 
+大概會需要紀錄這些資訊，這邊用隨便的順序切鍊
+```cpp
+int par[mxn];
+int dep[mxn];
+int link_id[mxn];
+int link_idx[mxn];
+vector<int> link[mxn];
+int next_on_link[mxn];
+vector<int> tree[mxn];
+int lcnt = 0;
+
+void dfs1(int now) {
+    for (auto nxt: tree[now]) {
+        if (nxt == par[now]) continue;
+        par[nxt] = now;
+        dep[nxt] = dep[now] + 1;
+        next_on_link[now] = nxt;
+        dfs1(nxt, now);
+    }
+}
+void dfs2(int now, int lid) {
+    link_id[now] = lid;
+    link_idx[now] = link[lid].size();
+    link[lid].push_back(now);
+    if (next_on_link[now]) dfs2(next_on_link[now], lid);
+    for (auto nxt: tree[now]) {
+        if (nxt == par || nxt == next_on_link[now]) continue;
+        dfs2(nxt, ++lcnt);
+    }
+    return;
+}
+```
+
+這樣切完之後，我們就可以用他的性質做事，比如說 LCA 
+
+用的性質是鍊頂比較深的人整條鍊都不可能是答案
+```cpp
+int lca(int a, int b) {
+    int ta = link[link_id[a]][0];
+    int tb = link[link_id[b]][0];
+    while(ta != tb) {
+        if(dep[ta] < dep[tb]) {
+            swap(ta, tb);
+            swap(a, b);
+        }
+        a = par[ta];
+        ta = link[link_id[a]][0];
+    }
+    if (link_idx[a] < link_idx[b]) return a;
+    else return b;
+}
+```
+
+而要查詢 a 到 b 路徑的時候(e.g. 路徑 min)可以對每一個鍊開一個資料結構（注意這樣線段樹的大小會需要動態開）
+
+```cpp
+struct SEG {
+    vector<int> seg;
+    SEG(int n) {
+        seg = vector<int>(n*4, 0);
+    }
+    int query(int s, int e);
+    void modify(int p, int v);
+};
+
+SEG seg[mxn];
+int wei[mxn];
+
+int get_min(int a, int b) {
+    int ta = link[link_id[a]][0];
+    int tb = link[link_id[b]][0];
+    int ans = INT_MAX;
+    while (ta != tb) {
+        if (dep[ta] < dep[tb]) {
+            swap(ta, tb);
+            swap(a, b);
+        }
+        ans = min(ans, seg[link_id[a]].getval(0, link_idx[a]));
+        a = par[ta];
+        ta = link[link_id[a]][0];
+    }
+    if (link_idx[a] > link_idx[b]) swap(a, b);
+    ans = min(ans, seg[link_id[a]].getval(link_idx[a], link_idx[b]));
+    return ans;
+}
+
+int main() {
+    // input
+    dfs1(1);
+    dfs2(1, ++lcnt);
+    for (int i = 1; i <= lcnt; i++) {
+        seg[i] = SEG(link[i].size());
+        for (int j = 0; j < link[i].size(); j++) {
+            int now = link[i][j];
+            seg.modify(j, wei[now]);
+        }
+    }
+    get_min(a, b);
+}
+```
+
+OK，到這邊應該都可以吧？
+
+到這裡我們有了一個東西，但他的複雜度是怎樣呢？
+
+其實很爛，因為我們切的鍊是亂切，所以有可能發生的事情是你 a, b 之間間隔了 $O(n)$ 條鍊，就需要查 $O(n)$ 次才可以跳到 `ta == tb` 因此會退化成 $O(n)$ 。測資也很好構造，就隨便一張毛毛蟲圖就可以了。
+
+那怎麼解決這個問題呢？
+
+考慮切鍊的時候不要選擇 "任意" 一個子節點，而是挑有某些特徵的？
+
+對！所以我們不妨挑子樹最大的子節點往下接。
+
+```cpp
+int sz[mxn];
+int bs[mxn]; // bs stands for "biggest son"
+void dfs1(int now) {
+    sz[now] = 1;
+    for (auto nxt: tree[now]) {
+        if (nxt == par[now]) continue;
+        par[nxt] = now;
+        dep[nxt] = dep[now] + 1;
+        if (!bs[now] || sz[nxt] > sz[bs[now]]) bs[now] = nxt;
+        dfs1(nxt, now);
+        sz[now] += sz[nxt];
+    }
+}
+void dfs2(int now, int lid) {
+    link_id[now] = lid;
+    link_idx[now] = link[lid].size();
+    link[lid].push_back(now);
+    if (bs[now]) dfs2(bs[now], lid);
+    for (auto nxt: tree[now]) {
+        if (nxt == par || nxt == bs[now]) continue;
+        dfs2(nxt, ++lcnt);
+    }
+    return;
+}
+```
+這樣就可以保證任兩點間經過的鍊數量只有 $O(log n)$ 了
+
+為啥？因為每次執行 $a = par[ta]$ 時，`sz[a]` 一定比 `sz[ta]` 大兩倍，所以那行只會跑 $O(\log n)$ 次
+
+好，那到這邊就把 HLD 講完了，剩下的只有實作而已。
+
+### 一些實作技巧
+- 首先，`vector<int> link[mxn]` 看起來好糟糕喔，而且我們只會在乎鍊頂，那乾脆只紀錄鍊頂就好了
+- 很多個線段樹初始化感覺好可怕，而且快取會變差，乾脆壓成一個
+    - 只要維護每個鍊都是連續區間就可以了
+所以實作就變成這樣
+```cpp
+struct SEG {
+    int seg[mxn];
+};
+int idx[mxn], sz[mxn], bs[mxn], link_top[mxn], par[mxn], dep[mxn];
+int cnt;
+
+int wei[mxn];
+
+void dfs1(int now) {
+    sz[now] = 1;
+    for (auto nxt: tree[now]) {
+        if (nxt == par) continue;
+        par[nxt] = par[now] + 1;
+        dep[nxt] = dep[now] + 1;
+        dfs1(nxt);
+        if (!bs[now] || sz[bs[now]] < sz[nxt]) bs[now] = nxt;
+        sz[now] += sz[nxt];
+    }
+}
+void dfs2(int now, int top) {
+    idx[now] = ++cnt;
+    link_top[now] = top;
+    if (bs[now]) dfs2(bs[now], top);
+    for (auto nxt: tree[now]) {
+        if (nxt == par[now] || nxt == bs[now]) continue;
+        dfs2(nxt, nxt);
+    }
+}
+int main() {
+    // input
+    dfs1(1);
+    dfs2(1, 1);
+    for (int i = 1; i <= n; i++) {
+        seg.modify(idx[i], wei[i]);
+    }
+}
+```
+然後查詢就變這樣：
+```cpp
+pii lca(int a, int b) { // returns (lca, min)
+    int ta = link_top[a];
+    int tb = link_top[b];
+    int ans = INT_MAX;
+    while(ta != tb) {
+        if (dep[ta] < dep[tb]) {
+            swap(ta, tb);
+            swap(a, b);
+        }
+        ans = min(ans, seg.query(idx[ta], idx[a]));
+        a = par[ta];
+        ta = link_top[a];
+    }
+    if (dep[a] > dep[b]) swap(a, b);
+    ans = min(ans, seg.query(idx[a], idx[b]));
+    return make_pair(a, ans);
+}
+```
+
+解決！這樣複雜度是 $O(n \log n + q \log ^ 2 n)$ ，因為線段樹查詢的 log 要做 log 次（每層到鍊頂的）
+
+當然可以壓到一個 log ，就是額外每條鍊紀錄前綴 min ，會發現除了最後一次外每一次 query 都是前綴所以可以 $O(1) \times O(\log n) + O(\log n)$
+
+### 例題
+- [CSES Path Queries II](https://cses.fi/problemset/task/2134)
+
+## Kruskral 重構樹
+希望到這邊已經對樹夠熟了
+
+回到 MST 一下，考慮把 MST 合併的過程用一個樹記下來，就是 kruskral 重構樹
+
+會發現這個重構樹可以把離線問題在線做掉，有時候還會比較好寫
+### 例題
+- [CF 1706E](https://codeforces.com/contest/1706/problem/E)
+- [CodeChef TULIPS](https://www.codechef.com/problems/TULIPS)
+- [luogu 歸程](https://www.luogu.com.cn/problem/P4768)
+
+簡單說就是把一些有 a -> b, b -> c imply a -> c 的關係畫成一棵樹就可以做很多東西
+
 ## Virtual Tree
+使用情形是當有多筆詢問，每次是問一組點時，發現到只有那些點包含的一個小一點的樹可能有用
+
+比較 formal 的說法是，我們希望保留一些需求點以及少許的額外點，並加入一些邊連接需求點跟額外點形成一個樹。目標是讓這些點的祖孫關係維持不變。
+
+主流實作應該有兩種，但都用到以下的性質
+- 額外點只需要是兩兩之間的 LCA
+- 兩兩之間的 LCA 最多只有 $n-1$ 個相異節點
+
+基於這些觀察，我們可以導出兩種實作
+- 把需求點跟額外點收集好之後照歐拉迴路排序，邊拿一個 stack 邊蓋
+- 把需求點跟額外點收集好之後照歐拉迴路排序，每個點 $v_i$ 往 $lca(v_{i-1}, v_i)$ 接一條邊
+
+### 例題
+- [Codechef YATP](https://www.codechef.com/DEC21A/problems/YATP)
+- [JOI Factories](https://oj.uz/problem/view/JOI14_factories)
