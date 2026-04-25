@@ -358,7 +358,7 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [CF R784](https://codeforces.com/contest/1669)
 - [CF R995](https://codeforces.com/contest/2051)
 
-# Week 19
+# Week 20
 ## DS3
 - [OJDL 7219](https://ojdl.ck.tp.edu.tw/problem/7219)
 - [我推的盤子](https://oj.ntucpc.org/problems/22)
@@ -375,7 +375,7 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [回滾莫隊 2](https://loj.ac/p/2874)
 - [ABC 405G](https://atcoder.jp/contests/abc405/tasks/abc405_g):這題有把 log 卡掉，所以做到 $O(N \sqrt N)$
 
-# Week 20
+# Week 21
 ## 離線
 基本上 offline 裡面已經有一些習題我就先不重複貼了
 
@@ -388,6 +388,16 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [CF 1140F](https://codeforces.com/problemset/problem/1140/F)
 - [CF 601E](https://codeforces.com/problemset/problem/601/E)
 - [三維偏序](https://www.luogu.com.cn/problem/P3810)
-- [JOISC Examination](https://oj.uz/problem/view/JOI19_examination)
 - [CF 1093E](https://codeforces.com/contest/1093/problem/E)
 - [CSA Interval Expected Max](https://csacademy.com/contest/archive/task/interval-expected-max/)
+
+# Week 22
+可以把 CSES Tree 那裡全部寫完了，一樣就不放例題了，可以到 tree4 那邊找
+- [ABC 294G](https://atcoder.jp/contests/abc294/tasks/abc294_g)
+    - 當然可以不用樹剖但是可以用用看
+- [CF 1843F](https://codeforces.com/contest/1843/problem/F2)
+    - 當然可以倍增但可以用用看樹剖
+- [TIOJ 2161](https://tioj.ck.tp.edu.tw/problems/2161)
+    - 有很聰明不用樹剖的作法，可以想想看
+- [ABC 291Ex](https://atcoder.jp/contests/abc291/tasks/abc291_h)
+- [CF 1790F](https://codeforces.com/contest/1790/problem/F)
