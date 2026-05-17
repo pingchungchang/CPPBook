@@ -401,3 +401,14 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
     - 有很聰明不用樹剖的作法，可以想想看
 - [ABC 291Ex](https://atcoder.jp/contests/abc291/tasks/abc291_h)
 - [CF 1790F](https://codeforces.com/contest/1790/problem/F)
+
+# Week 23
+- [APIO 10 Commando](https://tioj.ck.tp.edu.tw/problems/1745)
+- [CSES Houses and Schools](https://cses.fi/problemset/task/2087/)
+- [SGNOI Feast](https://oj.uz/problem/view/NOI19_feast)
+- [CF Utilitarianism](https://codeforces.com/gym/102059/problem/M)
+- [TIOJ 1283](https://tioj.ck.tp.edu.tw/problems/1283)
+- [NTUCPC 28](https://oj.ntucpc.org/problems/28)
+- [NTUCPC 47](https://oj.ntucpc.org/problems/47)
+- [TIOJ 2328](https://tioj.ck.tp.edu.tw/problems/2328)
+- [IOI 16 Aliens](https://tioj.ck.tp.edu.tw/problems/1961)
