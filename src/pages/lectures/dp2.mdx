@@ -112,4 +112,68 @@ void cdq(int l, int r) {
 
 當場畫圖應該會清楚很多。
 
+## 簡單複習
+- [NTUCPC 183](https://oj.ntucpc.org/problems/183)
+
 ## Slope Trick
+- [CSES Increasing Array II](https://cses.fi/problemset/task/2132)
+應該可以很間單地列出一個 $O(NC^2)$ 的 DP （順便暖身）
+```cpp
+ll dp[N+1][C+1];
+int a[N+1];
+for (int i = 1; i <= N; i++) {
+    for (int j = 1; j <= C; j++) {
+        dp[i][j] = LLONG_MAX;
+        for (int k = 1; k <= j; k++) {
+            dp[i][j] = min(dp[i][j], dp[i-1][k] + abs(j-a[i]));
+        }
+    }
+}
+```
+
+先壓成 $O(NC)$
+
+```cpp
+ll dp[N+1][C+1];
+ll dp1[N+1][C+1];
+int a[N+1];
+for (int i = 1; i <= N; i++) {
+    dp[i][0] = LLONG_MAX;
+    for (int j = 1; j <= C; j++) {
+        dp[i][j] = dp[i-1][j] + abs(j-a[i]);
+        dp[i][j] = min(dp[i][j], dp[i][j-1]);
+    }
+}
+```
+
+然後就走不下去了...
+
+但是，好好觀察 dp 出來的東西的形狀會有意外的收穫！
+
+首先，`abs(j-a[i])` 是一條折線。然後 $dp[i-1] -> dp[i]$ 在做的事情就是
+- 在 $dp[i-1]$ 的值上面加上那條折線
+- 把折線右邊的人壓平（取 min）
+
+最後，觀察到 $dp[i]$ 基本上本身就是一堆折線組起來的集合，所以可以好好維護！
+
+- [例題](https://oj.uz/problem/view/NOI18_safety)
+
+## Knuth Optimization
+基本上就是二維版本的四邊形，用的先決條件是轉移點往右跟往下同時要遞增
+- [例題](https://cses.fi/problemset/task/2088)
+
+```cpp
+for(int len = 2;len<=n;len++){
+    for(int st = 1;st+len-1<=n;st++){
+        int l = st,r = st+len-1;
+        dp[l][r] = inf;
+        for(int c = max(pt[l][r-1],l);c<=min(pt[l+1][r],r-1);c++){
+            if(dp[l][r]>dp[l][c]+dp[c+1][r]){
+                pt[l][r] = c;
+                dp[l][r] = dp[l][c]+dp[c+1][r];
+            }
+        }
+        dp[l][r] += arr[r]-arr[l-1];
+    }
+}
+```

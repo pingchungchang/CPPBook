@@ -1,0 +1,99 @@
+---
+title: 'sqrt'
+pubDate: 2026-05-25
+description: 'sqrt'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# 分塊
+通常會用到分塊都是懶得動腦/題目真的沒有好性質的時候
+
+## 區間加值，區間求和
+把陣列每 $B$ 個切一塊，每一塊用一個標記紀錄這個區間被加過幾次了，再額外紀錄每塊的區間和
+
+```cpp
+const int B = 1000;
+const int mxn = 2e5 + 10;
+
+struct DS {
+    ll tag[(N+B-1)/B], sum[(N+B-1)/B], arr[N];
+    void modify(int l, int r, ll v) {
+        if (r-l <= B) {
+            for (int i = l; i <=r ; i++) arr[i] += v, sum[i] += v;
+            return;
+        }
+        int bl = l / B + 1;
+        int br = r / B;
+        for (int i = bl; i < br; i++) tag[i] += v;
+        for (int i = bl * B-1; i >= l; i--) arr[i] += v, sum[bl - 1] += v;
+        for (int i = br * B; i <= r; i++) arr[i] += v, sum[br] += v;
+        return;
+    }
+    ll getval(int l, int r) {
+        int bl = l / B + 1;
+        int br = r / B;
+        ll ans = 0;
+        for (int i = bl; i < br; i++) ans += sum[i] + tag[i] * B;
+        for (int i = bl * B - 1; i >= l; i--) ans += arr[i] + tag[bl - 1];
+        for (int i = br * B; i <= r; i++) ans += arr[i] + tag[br];
+        return ans;
+    }
+}
+```
+複雜度 $O(\frac{N}{B} + B)$, 根據算幾不等式 $B = \sqrt N$ 最好
+
+## 區間加值，區間問元素出現次數
+對每一塊開一個 set ，並且每塊紀錄一個標記表示區間加被做了幾次。
+
+## 對表格分塊
+- [CF 2121C](https://codeforces.com/contest/2121/problem/C)
+
+有腦一點的作法就是好好判一下 case ，把有最大值的 row/column 都抓出來比比看
+
+啊無腦就枚舉其中一個 row ，假裝選那個 row ，那答案就變成把 row 扣 1 之後隨便找一下 column 就好
+
+這樣複雜度是 $O(N(NM))$ ？那我們假設 $N \le M$ 的話是不是就有 $N \le \sqrt 10^5$ 了？複雜度 $O(NM min(N, M)) = O(NM \sqrt {NM})$
+
+## 對總和分塊
+- [CF 95E](https://codeforces.com/problemset/problem/95/E)
+
+首先把連通塊併一併，變成背包問題。
+
+剩下的就是觀察到我們對各個物品的重量分組，最多只有 $O(\sqrt N)$ 種不同重量
+
+proof: $1 + 2 + \cdots \sqrt {2 N} \ge N$
+
+分完組之後就可以把同一組的用位元拆分一起做
+
+最後用 bitset 把 log 再壓掉
+
+複雜度 $O(\frac{N \sqrt N \log N}{w})$
+
+## degeneracy
+每年選訓某教授都會講的東西...
+- [TIOJ 2038](https://tioj.ck.tp.edu.tw/problems/2038)
+
+## 找三角形
+就好好用 degeneracy 就可以做了（啊不會的話其實 degeneracy 的效果跟把點照度數小到大排序一樣）
+- [Yosupo Enumerate Triangles](https://judge.yosupo.jp/problem/enumerate_triangles)
+
+## 鴿籠原理
+- [CSES Corner Subgrid Check](https://cses.fi/problemset/task/3360/)
+
+## 數論分塊
+簡單說就是要一次把 $\frac{n}{i} = c$ 的 $i$ 一口氣抓出來
+```cpp
+int l = 1;
+for (int i = 1; i <= n; i = (n/(n/i))+1) {
+    // do sth to those k with n/k = n/i
+    l = i;
+}
+```
+

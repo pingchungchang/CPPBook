@@ -1,0 +1,36 @@
+---
+title: 'graph2'
+pubDate: 2026-03-10
+description: 'graph2'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import prefixsumImage from '../../images/prefixsum-graph.png';
+
+# Graph 2
+好欸希望我不會講太快直接衝到這邊
+
+總之就是優化建圖
+
+這裡的東西非常非常考驗實作能力，所以建議實作穩定再過來練（至少線段樹，倍增等等要寫得很熟）
+
+## 優化建圖
+先簡單複習一下建圖吧
+- [ABC 270F](https://atcoder.jp/contests/abc270/tasks/abc270_f)
+- [NTUCPC 216](https://oj.ntucpc.org/problems/216)
+
+### 線段樹
+- [NTUCPC 271](https://oj.ntucpc.org/problems/271)
+
+把要建的邊整理一下，之後就想要加一些假的節點輔助就變這樣了
+
+### 例題
+- [JOISC Jail](https://oj.uz/problem/view/JOI22_jail)
+- [JOISC Capital City](https://oj.uz/problem/view/JOI20_capital_city)
+- [JOISC Passport](https://oj.uz/problem/view/JOI23_passport)
+- [SNOI Rigged Roads](https://oj.uz/problem/view/NOI19_riggedroads)
