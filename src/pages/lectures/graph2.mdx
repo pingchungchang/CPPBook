@@ -15,6 +15,44 @@ import prefixsumImage from '../../images/prefixsum-graph.png';
 # Graph 2
 好欸希望我不會講太快直接衝到這邊
 
+## Euler Circuit
+之前忘記講的歐拉迴路
+
+一張圖有歐拉回路(euler cycle) iff
+- 連通
+- 每個點度數都是偶數
+
+找歐拉迴路：
+```cpp
+vector<pii> paths[mxn]; // first: to, second: edge id
+int idx[mxn];
+bool vis[mxm];
+vector<int> eul;
+
+void dfs(int now) {
+    for (int &i = idx[now]; i < paths[now].size(); i++) {
+        if (vis[i]) continue;
+        auto [nxt, eid] = paths[i];
+        vis[eid] = true;
+        dfs(nxt);
+        eul.push_back(now);
+    }
+    return;
+}
+
+void euler() {
+    dfs(1);
+}
+```
+
+啊要找 euler path 就是固定起點就好了
+
+那 k 筆劃？
+
+### 例題
+- [CSES De Bruijn Sequence](https://cses.fi/problemset/task/1692)
+
+## 優化建圖
 總之就是優化建圖
 
 這裡的東西非常非常考驗實作能力，所以建議實作穩定再過來練（至少線段樹，倍增等等要寫得很熟）
