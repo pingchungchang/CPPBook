@@ -52,6 +52,30 @@ void euler() {
 ### 例題
 - [CSES De Bruijn Sequence](https://cses.fi/problemset/task/1692)
 
+## 匹配
+先放 code ，等等解釋
+```cpp
+bool dfs(int now){
+    for(auto &i:paths[now]){
+        if(visy[i])continue;
+        visy[i] = true;
+        if(!matchy[i]||dfs(matchy[i])){
+            matchy[i] = now;
+            matchx[now] = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    for(int i = 1;i<=n;i++){
+        fill(visy,visy+i+n+1,false);
+        if(dfs(i))ans++;
+    }
+}
+```
+
 ## 優化建圖
 總之就是優化建圖
 
