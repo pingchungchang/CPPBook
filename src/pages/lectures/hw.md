@@ -412,3 +412,12 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [NTUCPC 47](https://oj.ntucpc.org/problems/47)
 - [TIOJ 2328](https://tioj.ck.tp.edu.tw/problems/2328)
 - [IOI 16 Aliens](https://tioj.ck.tp.edu.tw/problems/1961)
+
+# Week 24
+- [SNOI Safety](https://oj.uz/problem/view/NOI18_safety)
+- [CSES Increasing Array II](https://cses.fi/problemset/task/2088)
+- [CF 95E](https://codeforces.com/problemset/problem/95/E)
+- [TIOJ 2038](https://tioj.ck.tp.edu.tw/problems/2038)
+- [TIOJ 2378](https://tioj.ck.tp.edu.tw/problems/2378)
+- [CSES Sum of Divisors](https://cses.fi/problemset/task/1082/)
+
