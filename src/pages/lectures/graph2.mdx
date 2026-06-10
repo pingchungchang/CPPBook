@@ -13,7 +13,20 @@ import { Image } from 'astro:assets';
 import prefixsumImage from '../../images/prefixsum-graph.png';
 
 # Graph 2
-好欸希望我不會講太快直接衝到這邊
+
+## 偏序關係
+簡單說就是今天兩個東西 $a, b$ ，有些可以比大小有些不行的時候我們稱他們為偏序關係
+
+如果把 $a \rightarrow b$ iff $a < b$  那會是一張 DAG 
+
+會發現把 LIS 畫上去基本上我們在找的就是最長鍊
+
+### Dilworth
+最小鍊覆蓋 = 最長反鍊
+
+不是很好證明，直觀理解就好
+
+DAG 的最小鍊覆蓋可以用二分圖匹配找
 
 ## Euler Circuit
 之前忘記講的歐拉迴路
@@ -75,6 +88,11 @@ int main() {
     }
 }
 ```
+帶權重？基本上直接砸 MCMF 會比多記一個匈牙利演算法簡單。
+
+### 例題
+- [TIOJ 炮打皮皮](https://tioj.ck.tp.edu.tw/problems/1253)
+- DAG 最小鍊覆蓋
 
 ## 優化建圖
 總之就是優化建圖
@@ -96,3 +114,10 @@ int main() {
 - [JOISC Capital City](https://oj.uz/problem/view/JOI20_capital_city)
 - [JOISC Passport](https://oj.uz/problem/view/JOI23_passport)
 - [SNOI Rigged Roads](https://oj.uz/problem/view/NOI19_riggedroads)
+
+## 差分約束
+建圖之後把式子列出來發現是最短路
+
+## 同餘最短路
+對餘數建圖之後找最短路
+- [CSA 0-K Multiples](https://csacademy.com/contest/archive/task/0-k-multiple/)
