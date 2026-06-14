@@ -421,3 +421,18 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [TIOJ 2378](https://tioj.ck.tp.edu.tw/problems/2378)
 - [CSES Sum of Divisors](https://cses.fi/problemset/task/1082/)
 
+# Week 25
+## 課中
+- [CSA Connect the Graph](https://csacademy.com/contest/archive/task/connect-the-graph/)
+- [CSA Minimize Max Diff](https://csacademy.com/contest/archive/task/minimize-max-diff/statement/)
+- [CSA Xor Closure](https://csacademy.com/contest/archive/task/xor-closure/)
+- [CSA Diamond Dogs](https://csacademy.com/contest/archive/task/dogs/)
+- [CSA Crossing Tree](https://csacademy.com/contest/archive/task/crossing-tree/)
+- [CSA Candles](https://csacademy.com/contest/archive/task/candles/)
+## 圖論
+- [TIOJ 炮打皮皮](https://tioj.ck.tp.edu.tw/problems/1253)
+- [NTUCPC 271](https://oj.ntucpc.org/problems/271)
+- [NTUCPC 856](https://oj.ntucpc.org/problems/856)
+- [NTUCPC 14](https://oj.ntucpc.org/problems/14)
+- [NTUCPC 54](https://oj.ntucpc.org/problems/54)
+- [NTUCPC 136](https://oj.ntucpc.org/problems/136)
