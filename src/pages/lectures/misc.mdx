@@ -1,0 +1,91 @@
+---
+title: 'Misc'
+pubDate: 2024-10-16
+description: 'Math'
+author: 'PCC'
+image:
+    url: 'https://docs.astro.build/assets/rose.webp'
+    alt: 'The Astro logo on a dark background with a pink glow.'
+tags: ["Basic", "CPP"]
+layout: '../../layouts/MyLayout.astro'
+---
+import { Image } from 'astro:assets';
+import treeImage from '../../images/tree.png';
+
+# Misc
+基本上我快沒東西講了
+
+## Nim
+基本上有一個很強的定理可以解決無偏無環賽局
+
+數學一點的部份可以去看 [CSES Book](https://cses.fi/book/book.pdf)
+- [CSES Nim Game](https://cses.fi/problemset/task/1730)
+
+
+## SG-Value
+對每個狀態，他的 SG-Value 是他走得到的狀態的 Mex
+
+SG Value = 0 iff 先手必敗
+
+## SG Theorem
+對多個遊戲，先手必敗 iff xor of 所有遊戲的 SG Value 是 0
+
+基本上可以想成把所有的遊戲都當成一堆石頭的 nim 來玩
+
+賽局題通常有兩種作法：一種是當個數學家，用瞪的瞪出最後的結論，把他當結論題做；另一種是打表，反正 SG Value 這東西跑起來是 $O(n^2)$ 的可以至少讓你打個幾十個人來對照
+
+## 例題
+- [ABC 297 G](https://atcoder.jp/contests/abc297/tasks/abc297_g)
+
+# Programmers and Artists
+基本上就是一個我高中不少碰到的思想，主要在於發現一個二維偏序照一維排好之後最後答案一定是選一段前綴跟一些其他最大值
+- [CSES Programmers and Artists](https://cses.fi/problemset/task/2426)
+- [TIOJ 2220](https://tioj.ck.tp.edu.tw/problems/2220)
+
+有人會說這也是一種 undo greedy ，但多數人的 undo greedy 指的是另一類題目
+
+# 捲積
+基本上是純數學
+- [偷一下別人的簡報 ovo](https://slides.com/weakweakweak/convolution)
+
+捲積這個學問很深，可以很快做各種事情，像是 [取 log](https://judge.yosupo.jp/problem/log_of_formal_power_series) 、[指數](https://judge.yosupo.jp/problem/exp_of_formal_power_series)、[開根號](https://judge.yosupo.jp/problem/sqrt_of_formal_power_series)
+
+那萬一 modulo 不是質數怎麼辦？
+- 做多次然後砸 [中國剩餘](https://github.com/PringDeSu/revoNTUlet_codebook/blob/main/src/math/crt.cpp)
+
+
+# 互動題
+就丟幾題不錯的互動題吧
+
+互動題通常可以當成會卡常數的演算法題，因為通常都是限定詢問次數，所以比較不存在什麼複雜度多一個 log 還會過這種事情
+
+或者是單純是把一些經典演算法用互動題包裝讓他看起來很難
+
+理論上這邊的題目上課應該要帶一帶
+
+- [CSES Hidden Number](https://cses.fi/problemset/task/3112)
+- [CSES Hidden Permutation](https://cses.fi/problemset/task/3139)
+- [CSES Inversion String](https://cses.fi/problemset/task/3140)
+- [CSA Second Minimum](https://csacademy.com/contest/archive/task/second-minimum/statement/)
+- [TIOJ 2211](https://tioj.ck.tp.edu.tw/problems/2211)
+- [CSA Election Spies](https://csacademy.com/contest/archive/task/election-spies/)
+- [ARC 154D](https://atcoder.jp/contests/arc154/tasks/arc154_d)
+- [IOI 18 Combo](oj.uz/problem/view/IOI18_combo): 至於為啥暴雷 IOI 是因為這場比起 vir 更適合補掉
+
+# Output Only
+不知道，講師自己都不會做 QQ 
+
+大概就開 visualizer 之後找 feature 硬幹
+
+通常 OI 的 output only 會是真的沒有最佳解的東西，而且不會有辦法讓你跑爆搜到滿分
+
+# Two Steps/Communication
+通常只會在 IOI/BOI/選訓/JOI 看到，簡單說就是 Alice, Bob 之間要傳訊息，然後通常是 Alice 可以傳 01 字串給 Bob 然後 Bob 要回答問題。因為會暴雷所以可以用的例題好少 QQ
+
+- [IOI24 Practice Treasure](https://oj.uz/problem/view/IOI24_treasure)
+- [IOI19 Practice Transfer](https://oj.uz/problem/view/IOI19_transfer)
+
+# [IOI18 Werewolf](https://oj.uz/problem/view/IOI18_werewolf)
+
+# [IOI18 Seats](https://oj.uz/problem/view/IOI18_seats)
+
