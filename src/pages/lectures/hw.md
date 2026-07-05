@@ -436,3 +436,12 @@ virtual 的頻率大概最多不要超過每週三場，重要的應該要是檢
 - [NTUCPC 14](https://oj.ntucpc.org/problems/14)
 - [NTUCPC 54](https://oj.ntucpc.org/problems/54)
 - [NTUCPC 136](https://oj.ntucpc.org/problems/136)
+
+# Week 26
+- [TIOJ 2303](https://tioj.ck.tp.edu.tw/problems/2303)
+- [CSES Programmers and Artists](https://cses.fi/problemset/task/2426)
+- [TIOJ 2220](https://tioj.ck.tp.edu.tw/problems/2220)
+- [ABC 368F](https://atcoder.jp/contests/abc368/tasks/abc368_f)
+- [CF 1194D](https://codeforces.com/contest/1194/problem/D)
+- [JOI 22 Final pC](https://oj.uz/problem/view/JOI22_ho_t3)
+- [CF 1514D](https://codeforces.com/contest/1514/problem/D)
